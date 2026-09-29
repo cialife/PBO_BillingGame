@@ -1,19 +1,8 @@
-import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.HeadlessException;
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Scanner;
-import javax.swing.JOptionPane;
-import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
 
 public class App {
 
@@ -29,15 +18,13 @@ public class App {
             System.out.println("\n========== SISTEM INVOICE ==========");
             System.out.println("1. Input transaksi / invoice");
             System.out.println("2. Tampilkan invoice di terminal");
-            System.out.println("3. Cetak struk (pop-out)");
-            System.out.println("4. Keluar");
-            int pilih = bacaInt("Pilih menu (1-4): ", 1, 4);
+            System.out.println("3. Keluar");
+            int pilih = bacaInt("Pilih menu (1-3): ", 1, 3);
 
             switch (pilih) {
                 case 1: inputTransaksi(); break;
                 case 2: tampilkanInvoiceTerminal(); break;
-                case 3: cetakStruk(); break;
-                case 4:
+                case 3:
                     System.out.println("Terima kasih. Program selesai.");
                     jalan = false;
                     break;
@@ -61,13 +48,15 @@ public class App {
         Pembeli pembeli = new Pembeli(accountID, username, email, ip, lokasi, poin);
         pembeli.daftarAkun();
 
+        // Tanggal transaksi
+        String tanggal = bacaString("Tanggal (dd-mm-yyyy) : ");
+
         // Pembayaran
         System.out.println("\n[Pembayaran]");
         String metode = bacaString("Metode pembayaran : ");
         Pembayaran pembayaran = new Pembayaran(metode);
 
         // Invoice
-        String tanggal = LocalDate.now().format(DateTimeFormatter.ofPattern("dd-MM-yyyy"));
         Invoice invoice = new Invoice(buatNomorInvoice(), tanggal, pembeli, pembayaran);
 
         // Produk (bisa lebih dari satu: 1..*)
@@ -129,27 +118,6 @@ public class App {
         }
     }
 
-    /* ==================== MENU 3: CETAK STRUK (POP-OUT) ==================== */
-
-    private static void cetakStruk() {
-        Invoice inv = pilihInvoice("CETAK STRUK");
-        if (inv == null) return;
-
-        String teks = inv.buatTeksInvoice();
-        try {
-            JTextArea area = new JTextArea(teks);
-            area.setFont(new Font(Font.MONOSPACED, Font.PLAIN, 13));
-            area.setEditable(false);
-            JScrollPane scroll = new JScrollPane(area);
-            scroll.setPreferredSize(new Dimension(500, 560));
-            JOptionPane.showMessageDialog(null, scroll,
-                    "Struk " + inv.getInvoiceNo(), JOptionPane.PLAIN_MESSAGE);
-        } catch (HeadlessException e) {
-            System.out.println("(Lingkungan tanpa layar, struk ditampilkan di terminal)\n");
-            System.out.println(teks);
-        }
-    }
-
     /* ==================== PILIH INVOICE BERDASARKAN NAMA GAME ==================== */
 
     private static Invoice pilihInvoice(String judulMenu) {
@@ -169,10 +137,10 @@ public class App {
     }
 
     /* ==================== FILE: DataInvoice.txt ====================
-     * Satu baris = satu invoice. Pemisah: '|' antar bagian, '#' antar produk, ';' antar field produk.
-     * INV|no|tanggal|accountID|username|email|ip|lokasi|poin|metode|produk1#produk2
-     * Game: GAME;kode;judul;publisher;harga;genre;ukuran
-     * DLC : DLC;kode;judul;publisher;harga;jenis;bKode;bJudul;bGenre;bUkuran
+     - Satu baris = satu invoice. Pemisah: '|' antar bagian, '#' antar produk, ';' antar field produk.
+     - INV|no|tanggal|accountID|username|email|ip|lokasi|poin|metode|produk1#produk2
+     - Game: GAME;kode;judul;publisher;harga;genre;ukuran
+     - DLC : DLC;kode;judul;publisher;harga;jenis;bKode;bJudul;bGenre;bUkuran
      */
 
     private static void simpanKeFile(Invoice inv) {
@@ -209,8 +177,9 @@ public class App {
             }
         }
 
-        try (PrintWriter pw = new PrintWriter(new FileWriter(FILE_DATA, true))) {
-            pw.println(sb);
+        // Ditulis dengan mode append (true) supaya baris lama tidak terhapus
+        try (FileWriter fw = new FileWriter(FILE_DATA, true)) {
+            fw.write(sb.toString() + "\n");
         } catch (IOException e) {
             System.out.println("Gagal menyimpan ke file: " + e.getMessage());
         }
@@ -221,9 +190,9 @@ public class App {
         if (!f.exists()) return;
 
         int berhasil = 0;
-        try (BufferedReader br = new BufferedReader(new FileReader(f))) {
-            String line;
-            while ((line = br.readLine()) != null) {
+        try (Scanner baca = new Scanner(f)) {
+            while (baca.hasNextLine()) {
+                String line = baca.nextLine();
                 if (line.trim().isEmpty()) continue;
                 try {
                     daftarInvoice.add(parseInvoice(line));

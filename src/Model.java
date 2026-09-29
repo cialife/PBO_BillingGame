@@ -1,5 +1,4 @@
 import java.util.ArrayList;
-import java.util.Locale;
 
 /* ===================== INTERFACE ===================== */
 
@@ -230,15 +229,27 @@ class Invoice implements Cetak {
         return sb.toString();
     }
 
+    /** Format angka menjadi rupiah dengan titik pemisah ribuan, tanpa library tambahan. */
     public static String rupiah(double nilai) {
-        return String.format(Locale.forLanguageTag("id-ID"), "Rp %,.2f", nilai);
+        long bulat = Math.round(nilai);
+        String angka = String.valueOf(bulat);
+        StringBuilder hasil = new StringBuilder();
+        int hitung = 0;
+        for (int i = angka.length() - 1; i >= 0; i--) {
+            hasil.insert(0, angka.charAt(i));
+            hitung++;
+            if (hitung % 3 == 0 && i != 0) {
+                hasil.insert(0, ".");
+            }
+        }
+        return "Rp " + hasil;
     }
 
     private static String baris(String label, String isi) {
         return String.format("%-17s: %s%n", label, isi);
     }
 
-    /** Teks invoice lengkap; dipakai untuk terminal maupun struk pop-up. */
+    /** Teks invoice lengkap untuk ditampilkan di terminal. */
     public String buatTeksInvoice() {
         hitungTotal();
         String garisTebal = "=".repeat(52) + "\n";
