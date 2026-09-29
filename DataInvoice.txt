@@ -1,2 +1,0 @@
-INV|INV-001|28-09-2026|cialife|cialife|felicia.825250026@stu.untar.ac.id|192.168.1.1|Jakarta Raya|1216|QRIS|GAME;001;Bombanana;idk;50000.0;blablabla;2.0
-INV|INV-002|09-10-2026|cialife|cialife|cialife@gmail.com|192.168.1.1|Jakarta|1265|QRIS|DLC;002;8 Ball Pool;idk;12345.0;idk;001;bombanana;simulator;2.0
