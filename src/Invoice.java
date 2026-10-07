@@ -45,7 +45,6 @@ public class Invoice implements Cetak {
         this.totalTagihan = this.subtotal + this.ppn;
     }
 
-    // Setters dan Getters
     public void setInvoiceNo(String invoiceNo) { 
         this.invoiceNo = invoiceNo; 
     }
@@ -101,7 +100,7 @@ public class Invoice implements Cetak {
     @Override
     public void tampilkanInvoice() {
         System.out.println("===============================================================");
-        System.out.println("        Terima kasih atas transaksi terbarumu di Steam.");
+        System.out.println("        Terima kasih atas transaksi terbarumu di Steam");
         System.out.println("===============================================================");
         System.out.println("Item di bawah ini telah ditambahkan ke Perpustakaan Steam-mu.\n");
         
@@ -124,9 +123,9 @@ public class Invoice implements Cetak {
         System.out.println("Invoice No                      : " + invoiceNo);
         System.out.println("Tanggal dibuat                  : " + tanggal);
         System.out.println("---------------------------------------------------------------");
-        System.out.printf("Subtotal (tanpa PPN) : Rp %,.0f\n", subtotal);
-        System.out.printf("PPN di 11%%           : Rp %,.0f\n", ppn);
-        System.out.printf("Total                : Rp %,.0f\n", totalTagihan);
+        System.out.printf("Subtotal (tanpa PPN)            : Rp %,.0f\n", subtotal);
+        System.out.printf("PPN di 11%%                      : Rp %,.0f\n", ppn);
+        System.out.printf("Total                           : Rp %,.0f\n", totalTagihan);
         System.out.println("---------------------------------------------------------------");
         if (pembeli != null) {
             System.out.println("Pesanan ini dipesan dari alamat IP:");
@@ -146,11 +145,10 @@ public class Invoice implements Cetak {
         System.out.println("===============================================================");
     }
 
-    // --- MENULIS/MENYIMPAN DATA KE FILE TEKS ---
     public void simpanKeFile(String namaFile) {
         try (FileWriter writer = new FileWriter(namaFile)) {
             writer.write("===============================================================\n");
-            writer.write("        Terima kasih atas transaksi terbarumu di Steam.\n");
+            writer.write("        Terima kasih atas transaksi terbarumu di Steam\n");
             writer.write("===============================================================\n");
             writer.write("Item di bawah ini telah ditambahkan ke Perpustakaan Steam-mu.\n\n");
 
@@ -173,9 +171,9 @@ public class Invoice implements Cetak {
             writer.write("Invoice No                      : " + invoiceNo + "\n");
             writer.write("Tanggal dibuat                  : " + tanggal + "\n");
             writer.write("---------------------------------------------------------------\n");
-            writer.write(String.format("Subtotal (tanpa PPN) : Rp %,.0f\n", subtotal));
-            writer.write(String.format("PPN di 11%%           : Rp %,.0f\n", ppn));
-            writer.write(String.format("Total                : Rp %,.0f\n", totalTagihan));
+            writer.write(String.format("Subtotal (tanpa PPN)            : Rp %,.0f\n", subtotal));
+            writer.write(String.format("PPN di 11%%                      : Rp %,.0f\n", ppn));
+            writer.write(String.format("Total                           : Rp %,.0f\n", totalTagihan));
             writer.write("---------------------------------------------------------------\n");
             if (pembeli != null) {
                 writer.write("Pesanan ini dipesan dari alamat IP:\n");
@@ -199,7 +197,6 @@ public class Invoice implements Cetak {
         }
     }
 
-    // --- MEMBACA DAN MENAMPILKAN DATA DARI FILE TEKS ---
     public static void bacaDariFile(String namaFile) {
         File file = new File(namaFile);
         try (Scanner reader = new Scanner(file)) {
@@ -208,7 +205,7 @@ public class Invoice implements Cetak {
                 String line = reader.nextLine();
                 System.out.println(line);
             }
-            System.out.println("------------------------- AKHIR DARI FILE -------------------------\n");
+            System.out.println("----------------------- AKHIR DARI FILE -----------------------\n");
         } catch (FileNotFoundException e) {
             System.out.println("[ERROR] File '" + namaFile + "' tidak ditemukan!");
         }

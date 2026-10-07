@@ -1,33 +1,33 @@
 ===============================================================
-        Terima kasih atas transaksi terbarumu di Steam.
+        Terima kasih atas transaksi terbarumu di Steam
 ===============================================================
 Item di bawah ini telah ditambahkan ke Perpustakaan Steam-mu.
 
-POIN STEAM-MU: 123
+POIN STEAM-MU: 650
 
 ---------------------------------------------------------------
-Overcooked
-   Subtotal (tanpa PPN)         : Rp 1,500,000
-   PPN di 11%                   : Rp 165,000
-   Total                        : Rp 1,665,000
+Dark Souls III
+   Subtotal (tanpa PPN)         : Rp 500.000
+   PPN di 11%                   : Rp 55.000
+   Total                        : Rp 555.000
 
-Let's Cook!
-   Subtotal (tanpa PPN)         : Rp 50,000
-   PPN di 11%                   : Rp 5,500
-   Total                        : Rp 55,500
+Dark Souls III: The Ringed City
+   Subtotal (tanpa PPN)         : Rp 150.000
+   PPN di 11%                   : Rp 16.500
+   Total                        : Rp 166.500
 
 ---------------------------------------------------------------
-Username                        : xyz
-Invoice No                      : 20260929140428
-Tanggal dibuat                  : 29-09-2026 14:04:28
+Username                        : iniusername
+Invoice No                      : 20261008034618
+Tanggal dibuat                  : 08-10-2026 03:46:18
 ---------------------------------------------------------------
-Subtotal (tanpa PPN) : Rp 1,550,000
-PPN di 11%           : Rp 170,500
-Total                : Rp 1,720,500
+Subtotal (tanpa PPN)            : Rp 650.000
+PPN di 11%                      : Rp 71.500
+Total                           : Rp 721.500
 ---------------------------------------------------------------
 Pesanan ini dipesan dari alamat IP:
 192.123.123.123
-Bali
+Jakarta
 ---------------------------------------------------------------
 Valve Corporation
 PO Box 1688
@@ -35,7 +35,7 @@ Bellevue, WA 98009
 United States
 ID PPN: 021629266053000
 ---------------------------------------------------------------
-Username                        : xyz
+Username                        : iniusername
 Metode Pembayaran               : QRIS
-Total Transaksimu               : Rp 1,720,500
+Total Transaksimu               : Rp 721.500
 ===============================================================

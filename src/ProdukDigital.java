@@ -45,6 +45,6 @@ public class ProdukDigital {
     }
 
     public double hitungPPN(double harga) {
-        return harga * 0.11; // PPN 11%
+        return harga * 0.11;
     }
 }

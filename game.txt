@@ -1,0 +1,20 @@
+GM001;Hades;Supergiant Games;145000;Action Roguelike;15.0
+GM002;Stardew Valley;ConcernedApe;80000;Simulasi;0.5
+GM003;Terraria;Re-Logic;60000;Sandbox;0.2
+GM004;Portal 2;Valve;69000;Puzzle;12.0
+GM005;Hollow Knight;Team Cherry;110000;Metroidvania;9.0
+GM006;Cyberpunk 2077;CD PROJEKT RED;699000;RPG;70.0
+GM007;Elden Ring;Bandai Namco;800000;RPG;60.0
+GM008;Left 4 Dead 2;Valve;115000;FPS;13.0
+GM009;The Witcher 3: Wild Hunt;CD PROJEKT RED;249000;RPG;50.0
+GM010;Dark Souls III;Bandai Namco;500000;Action RPG;25.0
+GM011;Borderlands 3;2K;600000;FPS;75.0
+GM012;Civilization VI;2K;430000;Strategi;12.0
+GM013;Hearts of Iron IV;Paradox Interactive;300000;Strategi;8.0
+GM014;Stellaris;Paradox Interactive;300000;Strategi;6.0
+GM015;Monster Hunter: World;Capcom;450000;Action RPG;50.0
+GM016;Resident Evil Village;Capcom;560000;Horor;30.0
+GM017;Fallout 4;Bethesda Softworks;200000;RPG;30.0
+GM018;Skyrim Special Edition;Bethesda Softworks;250000;RPG;12.0
+GM019;Cities: Skylines;Paradox Interactive;180000;Simulasi;5.0
+GM020;Euro Truck Simulator 2;SCS Software;100000;Simulasi;6.0

@@ -8,6 +8,110 @@ import java.util.Scanner;
 
 public class App {
     private static final String FILE_AKUN = "akun.txt";
+    private static final String FILE_GAME = "game.txt";
+    private static final String FILE_DLC = "dlc.txt";
+
+    private static ArrayList<Game> muatGame() {
+        ArrayList<Game> daftar = new ArrayList<>();
+        if (!new File(FILE_GAME).exists()) {
+            System.out.println(">> File " + FILE_GAME + " tidak ditemukan di folder program.");
+            return daftar;
+        }
+        try (Scanner reader = new Scanner(new File(FILE_GAME))) {
+            while (reader.hasNextLine()) {
+                String baris = reader.nextLine().trim();
+                if (baris.isEmpty() || baris.startsWith("#")) {
+                    continue;
+                }
+                String[] d = baris.split(";");
+                if (d.length != 6) {
+                    System.out.println("[PERINGATAN] Baris dilewati (format salah): " + baris);
+                    continue;
+                }
+                try {
+                    daftar.add(new Game(d[0].trim(), d[1].trim(), d[2].trim(),
+                            Double.parseDouble(d[3].trim()), d[4].trim(), Double.parseDouble(d[5].trim())));
+                } catch (NumberFormatException e) {
+                    System.out.println("[PERINGATAN] Baris dilewati (harga/ukuran bukan angka): " + baris);
+                }
+            }
+        } catch (Exception e) {
+            System.out.println("[ERROR] Gagal membaca " + FILE_GAME + ": " + e.getMessage());
+        }
+        return daftar;
+    }
+
+    private static void tampilkanDaftarGame(ArrayList<Game> daftar) {
+        System.out.println("\n---------------------------------------- DAFTAR GAME ----------------------------------------");
+        System.out.printf("%-3s %-26s %-20s %-16s %9s %14s%n",
+                "No", "Judul", "Publisher", "Genre", "Ukuran", "Harga");
+        int no = 1;
+        for (Game g : daftar) {
+            System.out.printf("%-3d %-26s %-20s %-16s %6.1f GB Rp %,11.0f%n",
+                    no++, g.getJudul(), g.getPublisher(), g.getGenre(), g.getUkuranFile(), g.getHarga());
+        }
+        System.out.println("---------------------------------------------------------------------------------------------");
+    }
+
+    private static ArrayList<DLC> muatDLC(ArrayList<Game> daftarGame) {
+        ArrayList<DLC> daftar = new ArrayList<>();
+        if (!new File(FILE_DLC).exists()) {
+            System.out.println(">> File " + FILE_DLC + " tidak ditemukan di folder program.");
+            return daftar;
+        }
+        try (Scanner reader = new Scanner(new File(FILE_DLC))) {
+            while (reader.hasNextLine()) {
+                String baris = reader.nextLine().trim();
+                if (baris.isEmpty() || baris.startsWith("#")) {
+                    continue;
+                }
+                String[] d = baris.split(";");
+                if (d.length != 8) {
+                    System.out.println("[PERINGATAN] Baris dilewati (format salah): " + baris);
+                    continue;
+                }
+                try {
+                    String kode = d[0].trim();
+                    String publisher = d[2].trim();
+                    String genre = d[4].trim();
+                    String namaBase = d[7].trim();
+
+                    Game baseGame = null;
+                    for (Game g : daftarGame) {
+                        if (g.getJudul().equalsIgnoreCase(namaBase)) {
+                            baseGame = g;
+                            break;
+                        }
+                    }
+                    if (baseGame == null) {
+                        baseGame = new Game("BASE-" + kode, namaBase, publisher, 0, genre, 0);
+                    }
+
+                    daftar.add(new DLC(kode, d[1].trim(), publisher, Double.parseDouble(d[3].trim()),
+                            genre, Double.parseDouble(d[5].trim()), d[6].trim(), baseGame));
+                } catch (NumberFormatException e) {
+                    System.out.println("[PERINGATAN] Baris dilewati (harga/ukuran bukan angka): " + baris);
+                }
+            }
+        } catch (Exception e) {
+            System.out.println("[ERROR] Gagal membaca " + FILE_DLC + ": " + e.getMessage());
+        }
+        return daftar;
+    }
+
+    private static void tampilkanDaftarDLC(ArrayList<DLC> daftar) {
+        System.out.println("\n------------------------------------------------------- DAFTAR DLC ------------------------------------------------------------");
+        System.out.printf("%-3s %-40s %-25s %-20s %-10s %9s %14s%n",
+                "No", "Judul", "Base Game", "Publisher", "Jenis", "Ukuran", "Harga");
+        int no = 1;
+        for (DLC d : daftar) {
+            System.out.printf("%-3d %-40s %-25s %-20s %-10s %6.1f GB Rp %,11.0f%n",
+                    no++, d.getJudul(), d.getBaseGame().getJudul(), d.getPublisher(),
+                    d.getJenis(), d.getUkuranFile(), d.getHarga());
+        }
+        System.out.println("-------------------------------------------------------------------------------------------------------------------------------");
+    }
+
     private static ArrayList<Pembeli> muatAkun() {
         ArrayList<Pembeli> daftar = new ArrayList<>();
         File file = new File(FILE_AKUN);
@@ -31,6 +135,17 @@ public class App {
         try (FileWriter writer = new FileWriter(FILE_AKUN, true)) {
             writer.write(p.getAccountID() + ";" + p.getUsername() + ";" + p.getEmail() + ";"
                     + p.getAlamatIP() + ";" + p.getLokasi() + ";" + p.getPoinSteam() + "\n");
+        } catch (IOException e) {
+            System.out.println("[ERROR] Gagal menyimpan akun: " + e.getMessage());
+        }
+    }
+
+    private static void simpanSemuaAkun(ArrayList<Pembeli> daftar) {
+        try (FileWriter writer = new FileWriter(FILE_AKUN)) {
+            for (Pembeli p : daftar) {
+                writer.write(p.getAccountID() + ";" + p.getUsername() + ";" + p.getEmail() + ";"
+                        + p.getAlamatIP() + ";" + p.getLokasi() + ";" + p.getPoinSteam() + "\n");
+            }
         } catch (IOException e) {
             System.out.println("[ERROR] Gagal menyimpan akun: " + e.getMessage());
         }
@@ -62,7 +177,6 @@ public class App {
         System.out.println("=================================================");
 
         try {
-            // 0. Daftar / Masuk Akun
             ArrayList<Pembeli> daftarAkun = muatAkun();
             Pembeli pembeli = null;
 
@@ -92,11 +206,9 @@ public class App {
                         String ip = input.nextLine();
                         System.out.print("Masukkan Lokasi Pembelian   : ");
                         String lokasi = input.nextLine();
-                        System.out.print("Masukkan Poin Steam saat ini: ");
-                        int poin = Integer.parseInt(input.nextLine());
 
                         String accID = "ACC" + (int) (Math.random() * 1000);
-                        Pembeli baru = new Pembeli(accID, username, email, ip, lokasi, poin);
+                        Pembeli baru = new Pembeli(accID, username, email, ip, lokasi, 0);
                         baru.daftarAkun();
                         simpanAkun(baru);
                         daftarAkun.add(baru);
@@ -113,11 +225,6 @@ public class App {
                         System.out.println(">> Username atau email salah / akun belum terdaftar.");
                     } else {
                         ditemukan.masukAkun();
-                        // IP & lokasi bisa berbeda tiap pembelian, perbarui lewat setter yang sudah ada
-                        System.out.print("Masukkan Alamat IP          : ");
-                        ditemukan.setAlamatIP(input.nextLine());
-                        System.out.print("Masukkan Lokasi Pembelian   : ");
-                        ditemukan.setLokasi(input.nextLine());
                         pembeli = ditemukan;
                     }
                 } else {
@@ -125,87 +232,77 @@ public class App {
                 }
             }
 
-            // 2. Input Data Pembayaran & Invoice
-            System.out.println("\n--------------- INFORMASI TRANSAKSI --------------");
-            System.out.print("Metode Pembayaran            : ");
-            String metode = input.nextLine();
-            Pembayaran pembayaran = new Pembayaran(metode);
+            Invoice invoice = new Invoice();
+            invoice.setPembeli(pembeli);
 
-            LocalDateTime waktuSekarang = LocalDateTime.now();
-
-            // Format Tanggal untuk dicetak di struk
-            DateTimeFormatter formatTanggal = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
-            String tanggal = waktuSekarang.format(formatTanggal);
-
-            // Format 14 digit murni dari waktu
-            DateTimeFormatter formatTanggalInvoice = DateTimeFormatter.ofPattern("yyyyMMddHHmmss");
-            String invNo = waktuSekarang.format(formatTanggalInvoice);
-
-            System.out.println("Nomor Invoice                : " + invNo);
-            System.out.println("Tanggal Pembelian            : " + tanggal);
-
-            // Membuat objek Invoice dengan data yang sudah otomatis
-            Invoice invoice = new Invoice(invNo, tanggal, pembeli, pembayaran);
-
-            // 3. Looping Input Produk
             boolean tambahProduk = true;
             while (tambahProduk) {
                 System.out.println("\n------------------- TAMBAH ITEM ------------------");
                 System.out.println("1. Tambah Game Utama");
                 System.out.println("2. Tambah DLC (Downloadable Content)");
                 System.out.println("0. Selesai");
-                System.out.print("Pilih Menu: ");
+                System.out.print("Pilih Menu                   : ");
 
                 int pilihan = Integer.parseInt(input.nextLine());
 
                 if (pilihan == 0) {
                     tambahProduk = false;
-                } else if (pilihan == 1 || pilihan == 2) {
-                    System.out.print("Kode Produk                  : ");
-                    String kode = input.nextLine();
-
-                    System.out.print("Judul Produk                 : ");
-                    String judul = input.nextLine();
-
-                    System.out.print("Publisher                    : ");
-                    String publisher = input.nextLine();
-
-                    System.out.print("Harga (Rp)                   : ");
-                    double harga = Double.parseDouble(input.nextLine());
-
-                    System.out.print("Genre                        : ");
-                    String genre = input.nextLine();
-
-                    System.out.print("Ukuran File (GB)             : ");
-                    double ukuran = Double.parseDouble(input.nextLine());
-
-                    if (pilihan == 1) {
-                        Game game = new Game(kode, judul, publisher, harga, genre, ukuran);
-                        invoice.tambahProduk(game);
-                        System.out.println(">> Game berhasil ditambahkan ke keranjang!");
+                } else if (pilihan == 1) {
+                    ArrayList<Game> daftarGame = muatGame();
+                    if (daftarGame.isEmpty()) {
+                        System.out.println(">> Tidak ada game yang bisa dipilih.");
                     } else {
-                        System.out.print("Jenis DLC                    : ");
-                        String jenisDLC = input.nextLine();
-
-                        System.out.print("Base Game                    : ");
-                        String namaBase = input.nextLine();
-
-                        Game baseGame = new Game("BASE-" + kode, namaBase, publisher, 0, genre, 0);
-                        DLC dlc = new DLC(kode, judul, publisher, harga, genre, ukuran, jenisDLC, baseGame);
-
-                        invoice.tambahProduk(dlc);
-                        System.out.println(">> DLC berhasil ditambahkan ke keranjang!");
+                        tampilkanDaftarGame(daftarGame);
+                        System.out.print("Pilih nomor game (0 = batal) : ");
+                        int no = Integer.parseInt(input.nextLine());
+                        if (no >= 1 && no <= daftarGame.size()) {
+                            Game game = daftarGame.get(no - 1);
+                            invoice.tambahProduk(game);
+                            System.out.println(">> Game " + game.getJudul() + " berhasil ditambahkan ke keranjang!");
+                        } else if (no != 0) {
+                            System.out.println(">> Nomor tidak valid.");
+                        }
+                    }
+                } else if (pilihan == 2) {
+                    ArrayList<DLC> daftarDLC = muatDLC(muatGame());
+                    if (daftarDLC.isEmpty()) {
+                        System.out.println(">> Tidak ada DLC yang bisa dipilih.");
+                    } else {
+                        tampilkanDaftarDLC(daftarDLC);
+                        System.out.print("Pilih nomor DLC (0 = batal)  : ");
+                        int no = Integer.parseInt(input.nextLine());
+                        if (no >= 1 && no <= daftarDLC.size()) {
+                            DLC dlc = daftarDLC.get(no - 1);
+                            invoice.tambahProduk(dlc);
+                            System.out.println(">> DLC " + dlc.getJudul() + " berhasil ditambahkan ke keranjang!");
+                        } else if (no != 0) {
+                            System.out.println(">> Nomor tidak valid.");
+                        }
                     }
                 } else {
                     System.out.println(">> Pilihan tidak valid, silakan ulangi.");
                 }
             }
 
-            // 4. Tampilkan Invoice di Konsol
+            System.out.print("Metode Pembayaran            : ");
+            String metode = input.nextLine();
+            invoice.setPembayaran(new Pembayaran(metode));
+
+            LocalDateTime waktuSekarang = LocalDateTime.now();
+            DateTimeFormatter formatTanggal = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
+            invoice.setTanggal(waktuSekarang.format(formatTanggal));
+            DateTimeFormatter formatTanggalInvoice = DateTimeFormatter.ofPattern("yyyyMMddHHmmss");
+            String invNo = waktuSekarang.format(formatTanggalInvoice);
+            invoice.setInvoiceNo(invNo);
+
+            int poinDidapat = (int) (invoice.getSubtotal() / 1000);
+            pembeli.setPoinSteam(pembeli.getPoinSteam() + poinDidapat);
+            simpanSemuaAkun(daftarAkun);
+            System.out.println(">> Poin Steam yang didapat dari pembelian ini: " + poinDidapat);
+
             System.out.println("\nMemproses struk transaksi Anda...\n");
             invoice.tampilkanInvoice();
 
-            // 5. Opsi I/O File (Simpan & Baca)
             String namaFile = "Invoice_" + invNo + ".txt";
 
             System.out.print("\nSimpan Invoice? (y/n): ");

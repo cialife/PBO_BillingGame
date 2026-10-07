@@ -1,0 +1,15 @@
+DL001;Elden Ring: Shadow of the Erdtree;Bandai Namco;400000;RPG;30.0;Ekspansi;Elden Ring
+DL002;Cyberpunk 2077: Phantom Liberty;CD PROJEKT RED;380000;RPG;30.0;Ekspansi;Cyberpunk 2077
+DL003;The Witcher 3: Hearts of Stone;CD PROJEKT RED;99000;RPG;5.0;Ekspansi;The Witcher 3: Wild Hunt
+DL004;The Witcher 3: Blood and Wine;CD PROJEKT RED;149000;RPG;7.0;Ekspansi;The Witcher 3: Wild Hunt
+DL005;Dark Souls III: Ashes of Ariandel;Bandai Namco;150000;Action RPG;3.0;Ekspansi;Dark Souls III
+DL006;Dark Souls III: The Ringed City;Bandai Namco;150000;Action RPG;4.0;Ekspansi;Dark Souls III
+DL007;Borderlands 3: Bounty of Blood;2K;150000;FPS;5.0;Ekspansi;Borderlands 3
+DL008;Civilization VI: Rise and Fall;2K;350000;Strategi;1.0;Ekspansi;Civilization VI
+DL009;Civilization VI: Gathering Storm;2K;350000;Strategi;1.5;Ekspansi;Civilization VI
+DL010;Hearts of Iron IV: Man the Guns;Paradox Interactive;200000;Strategi;1.0;Ekspansi;Hearts of Iron IV
+DL011;Stellaris: Utopia;Paradox Interactive;250000;Strategi;1.0;Ekspansi;Stellaris
+DL012;Monster Hunter: World - Iceborne;Capcom;450000;Action RPG;40.0;Ekspansi;Monster Hunter: World
+DL013;Resident Evil Village: Shadows of Rose;Capcom;250000;Horor;5.0;Ekspansi;Resident Evil Village
+DL014;Fallout 4: Far Harbor;Bethesda Softworks;100000;RPG;4.0;Ekspansi;Fallout 4
+DL015;Fallout 4: Nuka-World;Bethesda Softworks;100000;RPG;3.0;Ekspansi;Fallout 4

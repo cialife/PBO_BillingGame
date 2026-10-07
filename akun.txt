@@ -1,2 +1,2 @@
-ACC779;cialife;cialife@gmail.com;192.168.1.1;Jakarta;1892
-ACC120;xyz;xyz@email.com;192.123.123.123;Jakarta;123
+ACC693;melvi;melvi@email.com;192.123.123.123;Jakarta;1460
+ACC926;iniusername;iniemail@email.com;192.123.123.123;Jakarta;650
