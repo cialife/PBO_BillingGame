@@ -1,0 +1,36 @@
+===============================================================
+        Terima kasih atas transaksi terbarumu di Steam.
+===============================================================
+Item di bawah ini telah ditambahkan ke Perpustakaan Steam-mu.
+
+POIN STEAM-MU: 123
+
+---------------------------------------------------------------
+Overcooked
+   Subtotal (tanpa PPN)         : Rp 150,000
+   PPN di 11%                   : Rp 16,500
+   Total                        : Rp 166,500
+
+---------------------------------------------------------------
+Username                        : xyz
+Invoice No                      : 20260929134028
+Tanggal dibuat                  : 29-09-2026 13:40:28
+---------------------------------------------------------------
+Subtotal (tanpa PPN) : Rp 150,000
+PPN di 11%           : Rp 16,500
+Total                : Rp 166,500
+---------------------------------------------------------------
+Pesanan ini dipesan dari alamat IP:
+192.123.123.123
+Bali
+---------------------------------------------------------------
+Valve Corporation
+PO Box 1688
+Bellevue, WA 98009
+United States
+ID PPN: 021629266053000
+---------------------------------------------------------------
+Username                        : xyz
+Metode Pembayaran               : QRIS
+Total Transaksimu               : Rp 166,500
+===============================================================
