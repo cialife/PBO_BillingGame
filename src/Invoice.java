@@ -105,12 +105,12 @@ public class Invoice implements Cetak {
         String teks = "";
 
         teks = teks + garisTebal;
-        teks = teks + "        Terima kasih atas transaksi terbarumu di Steam\n";
+        teks = teks + "        Terima kasih atas transaksi terbarumu di Stream\n";
         teks = teks + garisTebal;
-        teks = teks + "Item di bawah ini telah ditambahkan ke Perpustakaan Steam-mu.\n\n";
+        teks = teks + "Item di bawah ini telah ditambahkan ke Perpustakaan Stream-mu.\n\n";
 
         if (pembeli != null) {
-            teks = teks + "POIN STEAM-MU: " + pembeli.getPoinSteam() + "\n\n";
+            teks = teks + "POIN STREAM-MU: " + pembeli.getPoinStream() + "\n\n";
         }
 
         teks = teks + garisTipis;

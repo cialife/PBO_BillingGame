@@ -167,7 +167,7 @@ public class App {
             FileWriter fw = new FileWriter(FILE_AKUN);
             for (Pembeli p : daftar) {
                 fw.write(p.getAccountID() + ";" + p.getUsername() + ";" + p.getEmail() + ";"
-                        + p.getAlamatIP() + ";" + p.getLokasi() + ";" + p.getPoinSteam() + "\n");
+                        + p.getAlamatIP() + ";" + p.getLokasi() + ";" + p.getPoinStream() + "\n");
             }
             fw.close();
         } catch (IOException e) {
@@ -347,9 +347,9 @@ public class App {
         String invNo = waktuSekarang.format(formatNomorInvoice);
         invoice.setInvoiceNo(invNo);
 
-        int poinLama = pembeli.getPoinSteam();
+        int poinLama = pembeli.getPoinStream();
         int poinDidapat = (int) (invoice.getSubtotal() / 1000);
-        pembeli.setPoinSteam(poinLama + poinDidapat);
+        pembeli.setPoinStream(poinLama + poinDidapat);
 
         System.out.println("\nMemproses struk transaksi Anda...\n");
         invoice.tampilkanInvoice();
@@ -359,7 +359,7 @@ public class App {
 
         if (konfirmasi.toLowerCase().equals("y")) {
             simpanAkun(daftarAkun);
-            System.out.println(">> Pembelian dikonfirmasi. Poin Steam yang didapat: " + poinDidapat);
+            System.out.println(">> Pembelian dikonfirmasi. Poin Stream yang didapat: " + poinDidapat);
 
             System.out.print("\nSimpan Invoice? (y/n): ");
             String opsiSimpan = input.nextLine();
@@ -377,7 +377,7 @@ public class App {
                 }
             }
         } else {
-            pembeli.setPoinSteam(poinLama);
+            pembeli.setPoinStream(poinLama);
             System.out.println(">> Pembelian dibatalkan. Poin tidak ditambahkan.");
         }
     }

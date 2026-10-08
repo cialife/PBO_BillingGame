@@ -1,13 +1,13 @@
 public class Pembeli extends Pengguna {
     private String alamatIP;
     private String lokasi;
-    private int poinSteam;
+    private int poinStream;
 
-    public Pembeli(String accountID, String username, String email, String alamatIP, String lokasi, int poinSteam) {
+    public Pembeli(String accountID, String username, String email, String alamatIP, String lokasi, int poinStream) {
         super(accountID, username, email);
         this.alamatIP = alamatIP;
         this.lokasi = lokasi;
-        this.poinSteam = poinSteam;
+        this.poinStream = poinStream;
     }
 
     public Pembeli() {
@@ -30,12 +30,12 @@ public class Pembeli extends Pengguna {
         return lokasi; 
     }
     
-    public void setPoinSteam(int poinSteam) { 
-        this.poinSteam = poinSteam; 
+    public void setPoinStream(int poinStream) { 
+        this.poinStream = poinStream; 
     }
 
-    public int getPoinSteam() { 
-        return poinSteam; 
+    public int getPoinStream() { 
+        return poinStream; 
     }
 
     @Override
