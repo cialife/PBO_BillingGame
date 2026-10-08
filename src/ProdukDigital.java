@@ -3,14 +3,13 @@ public class ProdukDigital {
 
     private String kodeProduk;
     private String judul;
-    private String publisher;
     private double harga;
     private Developer developer;
 
-    public ProdukDigital(String kodeProduk, String judul, String publisher, double harga) {
+    public ProdukDigital(String kodeProduk, String judul, Developer developer, double harga) {
         this.kodeProduk = kodeProduk;
         this.judul = judul;
-        this.publisher = publisher;
+        this.developer = developer;
         this.harga = harga;
     }
 
@@ -30,14 +29,6 @@ public class ProdukDigital {
 
     public String getJudul() {
         return judul;
-    }
-
-    public void setPublisher(String publisher) {
-        this.publisher = publisher;
-    }
-
-    public String getPublisher() {
-        return publisher;
     }
 
     public void setHarga(double harga) {

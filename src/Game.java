@@ -2,8 +2,8 @@ public class Game extends ProdukDigital {
     private String genre;
     private double ukuranFile;
 
-    public Game(String kodeProduk, String judul, String publisher, double harga, String genre, double ukuranFile) {
-        super(kodeProduk, judul, publisher, harga);
+    public Game(String kodeProduk, String judul, Developer developer, double harga, String genre, double ukuranFile) {
+        super(kodeProduk, judul, developer, harga);
         this.genre = genre;
         this.ukuranFile = ukuranFile;
     }

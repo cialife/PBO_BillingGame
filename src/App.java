@@ -54,10 +54,10 @@ public class App {
                         System.out.println("[PERINGATAN] Baris dilewati (format salah): " + baris);
                     } else {
                         try {
-                            Game g = new Game(d[0].trim(), d[1].trim(), d[2].trim(),
-                                    Double.parseDouble(d[3].trim()), d[4].trim(), Double.parseDouble(d[5].trim()));
-                            g.setDeveloper(cariAtauBuatDeveloper(daftarDeveloper, g.getPublisher()));
-                            daftar.add(g);
+                            double harga = Double.parseDouble(d[3].trim());
+                            double ukuran = Double.parseDouble(d[5].trim());
+                            Developer dev = cariAtauBuatDeveloper(daftarDeveloper, d[2].trim());
+                            daftar.add(new Game(d[0].trim(), d[1].trim(), dev, harga, d[4].trim(), ukuran));
                         } catch (NumberFormatException e) {
                             System.out.println("[PERINGATAN] Baris dilewati (harga/ukuran bukan angka): " + baris);
                         }
@@ -74,15 +74,15 @@ public class App {
     private static void tampilkanDaftarGame(ArrayList<Game> daftar) {
         System.out.println("\n---------------------------------------- DAFTAR GAME ----------------------------------------");
         System.out.printf("%-3s %-26s %-20s %-16s %9s %14s%n",
-                "No", "Judul", "Publisher", "Genre", "Ukuran", "Harga");
+                "No", "Judul", "Developer", "Genre", "Ukuran", "Harga");
         int no = 1;
         for (Game g : daftar) {
             System.out.printf("%-3d %-26s %-20s %-16s %6.1f GB Rp %,11.0f%n",
-                    no++, g.getJudul(), g.getPublisher(), g.getGenre(), g.getUkuranFile(), g.getHarga());
+                    no++, g.getJudul(), g.getDeveloper().getNamaDeveloper(), g.getGenre(), g.getUkuranFile(), g.getHarga());
         }
         System.out.println("---------------------------------------------------------------------------------------------");
     }
-
+    
     private static ArrayList<DLC> muatDLC(ArrayList<Game> daftarGame, ArrayList<Developer> daftarDeveloper) {
         ArrayList<DLC> daftar = new ArrayList<>();
         try {
@@ -97,9 +97,11 @@ public class App {
                     } else {
                         try {
                             String kode = d[0].trim();
-                            String publisher = d[2].trim();
                             String genre = d[4].trim();
                             String namaBase = d[7].trim();
+                            double harga = Double.parseDouble(d[3].trim());
+                            double ukuran = Double.parseDouble(d[5].trim());
+                            Developer dev = cariAtauBuatDeveloper(daftarDeveloper, d[2].trim());
 
                             Game baseGame = null;
                             for (Game g : daftarGame) {
@@ -108,14 +110,10 @@ public class App {
                                 }
                             }
                             if (baseGame == null) {
-                                baseGame = new Game("BASE-" + kode, namaBase, publisher, 0, genre, 0);
-                                baseGame.setDeveloper(cariAtauBuatDeveloper(daftarDeveloper, publisher));
+                                baseGame = new Game("BASE-" + kode, namaBase, dev, 0, genre, 0);
                             }
 
-                            DLC dlc = new DLC(kode, d[1].trim(), publisher, Double.parseDouble(d[3].trim()),
-                                    genre, Double.parseDouble(d[5].trim()), d[6].trim(), baseGame);
-                            dlc.setDeveloper(cariAtauBuatDeveloper(daftarDeveloper, publisher));
-                            daftar.add(dlc);
+                            daftar.add(new DLC(kode, d[1].trim(), dev, harga, genre, ukuran, d[6].trim(), baseGame));
                         } catch (NumberFormatException e) {
                             System.out.println("[PERINGATAN] Baris dilewati (harga/ukuran bukan angka): " + baris);
                         }
@@ -132,16 +130,16 @@ public class App {
     private static void tampilkanDaftarDLC(ArrayList<DLC> daftar) {
         System.out.println("\n------------------------------------------------------- DAFTAR DLC ------------------------------------------------------------");
         System.out.printf("%-3s %-40s %-25s %-20s %-10s %9s %14s%n",
-                "No", "Judul", "Base Game", "Publisher", "Jenis", "Ukuran", "Harga");
+                "No", "Judul", "Base Game", "Developer", "Jenis", "Ukuran", "Harga");
         int no = 1;
         for (DLC d : daftar) {
             System.out.printf("%-3d %-40s %-25s %-20s %-10s %6.1f GB Rp %,11.0f%n",
-                    no++, d.getJudul(), d.getBaseGame().getJudul(), d.getPublisher(),
+                    no++, d.getJudul(), d.getBaseGame().getJudul(), d.getDeveloper().getNamaDeveloper(),
                     d.getJenis(), d.getUkuranFile(), d.getHarga());
         }
         System.out.println("-------------------------------------------------------------------------------------------------------------------------------");
     }
-
+    
     private static ArrayList<Pembeli> muatAkun() {
         ArrayList<Pembeli> daftar = new ArrayList<>();
         try {
@@ -159,6 +157,7 @@ public class App {
             }
             reader.close();
         } catch (FileNotFoundException e) {
+            // File akun belum ada (belum ada yang mendaftar): daftar dibiarkan kosong
         }
         return daftar;
     }

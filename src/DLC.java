@@ -2,8 +2,8 @@ public class DLC extends Game {
     private String jenis;
     private Game baseGame;
 
-    public DLC(String kodeProduk, String judul, String publisher, double harga, String genre, double ukuranFile, String jenis, Game baseGame) {
-        super(kodeProduk, judul, publisher, harga, genre, ukuranFile);
+    public DLC(String kodeProduk, String judul, Developer developer, double harga, String genre, double ukuranFile, String jenis, Game baseGame) {
+        super(kodeProduk, judul, developer, harga, genre, ukuranFile);
         this.jenis = jenis;
         this.baseGame = baseGame;
     }
