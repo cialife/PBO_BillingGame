@@ -1,2 +1,2 @@
-ACC693;melvi;melvi@email.com;192.123.123.123;Jakarta;1460
+ACC693;melvi;melvi@email.com;192.123.123.123;Jakarta;3320
 ACC926;iniusername;iniemail@email.com;192.123.123.123;Jakarta;650

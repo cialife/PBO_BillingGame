@@ -1,8 +1,11 @@
 public class ProdukDigital {
+    public static final int PERSEN_PPN = 11;
+
     private String kodeProduk;
     private String judul;
     private String publisher;
     private double harga;
+    private Developer developer;
 
     public ProdukDigital(String kodeProduk, String judul, String publisher, double harga) {
         this.kodeProduk = kodeProduk;
@@ -13,38 +16,47 @@ public class ProdukDigital {
 
     public ProdukDigital() {}
 
-    public void setKodeProduk(String kodeProduk) { 
-        this.kodeProduk = kodeProduk; 
+    public void setKodeProduk(String kodeProduk) {
+        this.kodeProduk = kodeProduk;
     }
 
-    public String getKodeProduk() { 
-        return kodeProduk; 
+    public String getKodeProduk() {
+        return kodeProduk;
     }
 
-    public void setJudul(String judul) { 
-        this.judul = judul; 
-    }
-    public String getJudul() { 
-        return judul; 
+    public void setJudul(String judul) {
+        this.judul = judul;
     }
 
-    public void setPublisher(String publisher) { 
-        this.publisher = publisher; 
+    public String getJudul() {
+        return judul;
     }
 
-    public String getPublisher() { 
-        return publisher; 
+    public void setPublisher(String publisher) {
+        this.publisher = publisher;
     }
 
-    public void setHarga(double harga) { 
-        this.harga = harga; 
+    public String getPublisher() {
+        return publisher;
     }
 
-    public double getHarga() { 
-        return harga; 
+    public void setHarga(double harga) {
+        this.harga = harga;
+    }
+
+    public double getHarga() {
+        return harga;
+    }
+
+    public void setDeveloper(Developer developer) {
+        this.developer = developer;
+    }
+
+    public Developer getDeveloper() {
+        return developer;
     }
 
     public double hitungPPN(double harga) {
-        return harga * 0.11;
+        return harga * PERSEN_PPN / 100;
     }
 }
