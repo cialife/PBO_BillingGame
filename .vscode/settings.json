@@ -2,6 +2,18 @@
     "java.project.sourcePaths": ["src"],
     "java.project.outputPath": "bin",
     "java.project.referencedLibraries": [
-        "lib/**/*.jar"
+        "lib/**/*.jar",
+        "c:\\Users\\melvina\\OneDrive - Universitas Tarumanagara\\Desktop\\Tugas\\Kuliah Mel\\Semester 3\\Object Oriented Programming\\javafx-sdk\\javafx-sdk-27\\lib\\javafx.base.jar",
+        "c:\\Users\\melvina\\OneDrive - Universitas Tarumanagara\\Desktop\\Tugas\\Kuliah Mel\\Semester 3\\Object Oriented Programming\\javafx-sdk\\javafx-sdk-27\\lib\\javafx.controls.jar",
+        "c:\\Users\\melvina\\OneDrive - Universitas Tarumanagara\\Desktop\\Tugas\\Kuliah Mel\\Semester 3\\Object Oriented Programming\\javafx-sdk\\javafx-sdk-27\\lib\\javafx.fxml.jar",
+        "c:\\Users\\melvina\\OneDrive - Universitas Tarumanagara\\Desktop\\Tugas\\Kuliah Mel\\Semester 3\\Object Oriented Programming\\javafx-sdk\\javafx-sdk-27\\lib\\javafx.graphics.jar",
+        "c:\\Users\\melvina\\OneDrive - Universitas Tarumanagara\\Desktop\\Tugas\\Kuliah Mel\\Semester 3\\Object Oriented Programming\\javafx-sdk\\javafx-sdk-27\\lib\\javafx.media.jar",
+        "c:\\Users\\melvina\\OneDrive - Universitas Tarumanagara\\Desktop\\Tugas\\Kuliah Mel\\Semester 3\\Object Oriented Programming\\javafx-sdk\\javafx-sdk-27\\lib\\javafx.swing.jar",
+        "c:\\Users\\melvina\\OneDrive - Universitas Tarumanagara\\Desktop\\Tugas\\Kuliah Mel\\Semester 3\\Object Oriented Programming\\javafx-sdk\\javafx-sdk-27\\lib\\javafx.web.jar",
+        "c:\\Users\\melvina\\OneDrive - Universitas Tarumanagara\\Desktop\\Tugas\\Kuliah Mel\\Semester 3\\Object Oriented Programming\\javafx-sdk\\javafx-sdk-27\\lib\\javafx-swt.jar",
+        "c:\\Users\\melvina\\OneDrive - Universitas Tarumanagara\\Desktop\\Tugas\\Kuliah Mel\\Semester 3\\Object Oriented Programming\\javafx-sdk\\javafx-sdk-27\\lib\\jdk.jsobject.jar",
+        "c:\\Users\\melvina\\OneDrive - Universitas Tarumanagara\\Desktop\\Tugas\\Kuliah Mel\\Semester 3\\Object Oriented Programming\\javafx-sdk\\javafx-sdk-27\\lib\\jfx.incubator.input.jar",
+        "c:\\Users\\melvina\\OneDrive - Universitas Tarumanagara\\Desktop\\Tugas\\Kuliah Mel\\Semester 3\\Object Oriented Programming\\javafx-sdk\\javafx-sdk-27\\lib\\jfx.incubator.richtext.jar",
+        "c:\\Users\\melvina\\OneDrive - Universitas Tarumanagara\\Desktop\\Tugas\\Kuliah Mel\\Semester 3\\Object Oriented Programming\\javafx-sdk\\javafx-sdk-27\\lib\\postgresql-42.7.14.jar"
     ]
 }

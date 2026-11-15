@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
+    fx:controller="main.java.controller.MainWindowController">
+    <top>
+        <HBox alignment="CENTER_LEFT" spacing="15.0" styleClass="top-bar">
+            <children>
+                <Label styleClass="title-label" text="STREAM" />
+                <Region HBox.hgrow="ALWAYS" />
+                <Label fx:id="lblUser" text="Masuk sebagai:" />
+                <Label fx:id="lblPoin" text="Poin Stream: 0" />
+                <Button onAction="#handleLogout" styleClass="custom-button" text="Logout" />
+                <Button onAction="#handleKeluar" styleClass="custom-button" text="Keluar" />
+            </children>
+        </HBox>
+    </top>
+
+    <center>
+        <TabPane tabClosingPolicy="UNAVAILABLE">
+            <tabs>
+                <Tab text="Game Utama">
+                    <content>
+                        <VBox spacing="10.0">
+                            <padding>
+                                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                            </padding>
+                            <children>
+                                <TableView fx:id="gameTable" VBox.vgrow="ALWAYS">
+                                    <columns>
+                                        <TableColumn fx:id="colGameJudul" prefWidth="200.0"
+                                            text="Judul" />
+                                        <TableColumn fx:id="colGameDeveloper" prefWidth="140.0"
+                                            text="Developer" />
+                                        <TableColumn fx:id="colGameGenre" prefWidth="100.0"
+                                            text="Genre" />
+                                        <TableColumn fx:id="colGameUkuran" prefWidth="80.0"
+                                            text="Ukuran" />
+                                        <TableColumn fx:id="colGameHarga" prefWidth="100.0"
+                                            text="Harga" />
+                                    </columns>
+                                    <columnResizePolicy>
+                                        <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                                    </columnResizePolicy>
+                                </TableView>
+                                <Button onAction="#handleTambahGame" styleClass="custom-button"
+                                    text="Tambah Game ke Keranjang" />
+                            </children>
+                        </VBox>
+                    </content>
+                </Tab>
+                <Tab text="DLC">
+                    <content>
+                        <VBox spacing="10.0">
+                            <padding>
+                                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                            </padding>
+                            <children>
+                                <TableView fx:id="dlcTable" VBox.vgrow="ALWAYS">
+                                    <columns>
+                                        <TableColumn fx:id="colDlcJudul" prefWidth="220.0"
+                                            text="Judul" />
+                                        <TableColumn fx:id="colDlcBase" prefWidth="140.0"
+                                            text="Base Game" />
+                                        <TableColumn fx:id="colDlcDeveloper" prefWidth="120.0"
+                                            text="Developer" />
+                                        <TableColumn fx:id="colDlcJenis" prefWidth="80.0"
+                                            text="Jenis" />
+                                        <TableColumn fx:id="colDlcUkuran" prefWidth="70.0"
+                                            text="Ukuran" />
+                                        <TableColumn fx:id="colDlcHarga" prefWidth="90.0"
+                                            text="Harga" />
+                                    </columns>
+                                    <columnResizePolicy>
+                                        <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                                    </columnResizePolicy>
+                                </TableView>
+                                <Button onAction="#handleTambahDLC" styleClass="custom-button"
+                                    text="Tambah DLC ke Keranjang" />
+                            </children>
+                        </VBox>
+                    </content>
+                </Tab>
+            </tabs>
+        </TabPane>
+    </center>
+
+    <right>
+        <VBox prefWidth="340.0" spacing="10.0">
+            <padding>
+                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+            </padding>
+            <children>
+                <Label styleClass="section-label" text="Keranjang" />
+                <TableView fx:id="keranjangTable" VBox.vgrow="ALWAYS">
+                    <columns>
+                        <TableColumn fx:id="colKeranjangJudul" prefWidth="160.0" text="Judul" />
+                        <TableColumn fx:id="colKeranjangTipe" prefWidth="50.0" text="Tipe" />
+                        <TableColumn fx:id="colKeranjangHarga" prefWidth="90.0" text="Harga" />
+                    </columns>
+                    <columnResizePolicy>
+                        <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                    </columnResizePolicy>
+                </TableView>
+
+                <GridPane hgap="10.0" vgap="6.0">
+                    <children>
+                        <Label text="Subtotal (tanpa PPN):" GridPane.columnIndex="0"
+                            GridPane.rowIndex="0" />
+                        <Label fx:id="lblSubtotal" text="Rp 0" GridPane.columnIndex="1"
+                            GridPane.rowIndex="0" />
+                        <Label text="PPN:" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+                        <Label fx:id="lblPpn" text="Rp 0" GridPane.columnIndex="1"
+                            GridPane.rowIndex="1" />
+                        <Label styleClass="section-label" text="Total:" GridPane.columnIndex="0"
+                            GridPane.rowIndex="2" />
+                        <Label fx:id="lblTotal" styleClass="section-label" text="Rp 0"
+                            GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                    </children>
+                </GridPane>
+
+                <Label text="Metode Pembayaran:" />
+                <TextField fx:id="metodeField" promptText="Contoh: Transfer Bank" />
+                <Button maxWidth="Infinity" onAction="#handleCheckout" styleClass="custom-button"
+                    text="Checkout" />
+            </children>
+        </VBox>
+    </right>
+
+    <bottom>
+        <Label fx:id="lblStatus" text="" wrapText="true">
+            <padding>
+                <Insets bottom="8.0" left="10.0" right="10.0" top="8.0" />
+            </padding>
+        </Label>
+    </bottom>
+</BorderPane>

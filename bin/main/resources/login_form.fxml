@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox spacing="12.0" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
+    fx:controller="main.java.controller.LoginController">
+    <padding>
+        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+    </padding>
+    <children>
+        <Label styleClass="title-label" text="STREAM" />
+        <Label text="Sistem Pembuatan Invoice Pembelian Game" />
+
+        <TabPane tabClosingPolicy="UNAVAILABLE" VBox.vgrow="ALWAYS">
+            <tabs>
+                <Tab text="Masuk">
+                    <content>
+                        <GridPane hgap="10.0" vgap="10.0">
+                            <padding>
+                                <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+                            </padding>
+                            <children>
+                                <Label text="Username:" GridPane.columnIndex="0"
+                                    GridPane.rowIndex="0" />
+                                <TextField fx:id="loginUsernameField" promptText="Masukkan username"
+                                    GridPane.columnIndex="1" GridPane.rowIndex="0" />
+
+                                <Label text="Email:" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+                                <TextField fx:id="loginEmailField" promptText="Masukkan email"
+                                    GridPane.columnIndex="1" GridPane.rowIndex="1" />
+
+                                <Button maxWidth="Infinity" onAction="#handleMasuk"
+                                    styleClass="custom-button" text="Masuk" GridPane.columnIndex="1"
+                                    GridPane.rowIndex="2" />
+                            </children>
+                        </GridPane>
+                    </content>
+                </Tab>
+                <Tab text="Daftar Akun">
+                    <content>
+                        <GridPane hgap="10.0" vgap="10.0">
+                            <padding>
+                                <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+                            </padding>
+                            <children>
+                                <Label text="Username:" GridPane.columnIndex="0"
+                                    GridPane.rowIndex="0" />
+                                <TextField fx:id="daftarUsernameField" GridPane.columnIndex="1"
+                                    GridPane.rowIndex="0" />
+
+                                <Label text="Email:" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+                                <TextField fx:id="daftarEmailField" GridPane.columnIndex="1"
+                                    GridPane.rowIndex="1" />
+
+                                <Label text="Alamat IP:" GridPane.columnIndex="0"
+                                    GridPane.rowIndex="2" />
+                                <TextField fx:id="daftarIpField" GridPane.columnIndex="1"
+                                    GridPane.rowIndex="2" />
+
+                                <Label text="Lokasi Pembelian:" GridPane.columnIndex="0"
+                                    GridPane.rowIndex="3" />
+                                <TextField fx:id="daftarLokasiField" GridPane.columnIndex="1"
+                                    GridPane.rowIndex="3" />
+
+                                <Button maxWidth="Infinity" onAction="#handleDaftar"
+                                    styleClass="custom-button" text="Daftar"
+                                    GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                            </children>
+                        </GridPane>
+                    </content>
+                </Tab>
+            </tabs>
+        </TabPane>
+
+        <Label fx:id="lblStatus" text="" wrapText="true" />
+        <Button onAction="#handleKeluar" text="Keluar" />
+    </children>
+</VBox>

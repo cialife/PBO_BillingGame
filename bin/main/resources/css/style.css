@@ -1,0 +1,33 @@
+.root {
+    -fx-font-size: 13px;
+}
+
+.title-label {
+    -fx-font-size: 22px;
+    -fx-font-weight: bold;
+}
+
+.section-label {
+    -fx-font-size: 15px;
+    -fx-font-weight: bold;
+}
+
+.top-bar {
+    -fx-background-color: #1b2838;
+    -fx-padding: 10 15 10 15;
+}
+
+.top-bar .label {
+    -fx-text-fill: white;
+}
+
+.custom-button {
+    -fx-background-color: #4a90d9;
+    -fx-text-fill: white;
+    -fx-background-radius: 4;
+    -fx-cursor: hand;
+}
+
+.custom-button:hover {
+    -fx-background-color: #3b7bc0;
+}
