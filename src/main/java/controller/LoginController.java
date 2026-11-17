@@ -20,14 +20,6 @@ import main.java.model.Pembeli;
 import main.java.view.Main;
 
 public class LoginController {
-    private static final String PESAN_VALIDASI_PEMBELI = ">> Data tidak valid. Username 3-30 karakter "
-            + "(huruf, angka, _ atau .); email harus berformat benar; password 8-20 karakter dengan huruf besar, "
-            + "huruf kecil, angka, dan simbol tanpa spasi; alamat IP berformat IPv4 (contoh 192.168.1.1); "
-            + "lokasi tidak boleh kosong.";
-    private static final String PESAN_VALIDASI_DEVELOPER = ">> Data tidak valid. Username 3-30 karakter "
-            + "(huruf, angka, _ atau .); email harus berformat benar; password 8-20 karakter dengan huruf besar, "
-            + "huruf kecil, angka, dan simbol tanpa spasi; nama developer tidak boleh kosong.";
-
     // Tab Masuk
     @FXML
     private ComboBox<String> loginRoleCombo;
@@ -86,6 +78,10 @@ public class LoginController {
         String email = daftarEmailField.getText().trim();
         String password = daftarPasswordField.getText();
 
+        if (username.isEmpty() || email.isEmpty() || password.isEmpty()) {
+            lblStatus.setText(">> Username, email, dan password wajib diisi.");
+            return;
+        }
         if (!password.equals(daftarKonfirmasiField.getText())) {
             lblStatus.setText(">> Konfirmasi password tidak sama.");
             return;
@@ -106,9 +102,7 @@ public class LoginController {
                 daftarLokasiField.getText().trim(), 0);
         baru.setPassword(password);
 
-        if (!baru.validate()) { // validasi password plaintext harus sebelum di-hash
-            lblStatus.setText(PESAN_VALIDASI_PEMBELI);
-        } else if (PembeliDAO.usernameTerpakai(username)) {
+        if (PembeliDAO.usernameTerpakai(username)) {
             lblStatus.setText(">> Username sudah terdaftar.");
         } else if (PembeliDAO.tambah(baru)) {
             baru.daftarAkun();
@@ -121,12 +115,15 @@ public class LoginController {
 
     private void daftarSebagaiDeveloper(String username, String email, String password) throws SQLException {
         String nama = daftarNamaDeveloperField.getText().trim();
+        if (nama.isEmpty()) {
+            lblStatus.setText(">> Nama developer wajib diisi.");
+            return;
+        }
+
         Developer baru = new Developer("", username, email, nama);
         baru.setPassword(password);
 
-        if (!baru.validate()) {
-            lblStatus.setText(PESAN_VALIDASI_DEVELOPER);
-        } else if (DeveloperDAO.usernameTerpakai(username)) {
+        if (DeveloperDAO.usernameTerpakai(username)) {
             lblStatus.setText(">> Username developer sudah terdaftar.");
         } else if (DeveloperDAO.namaSudahPunyaAkun(nama)) {
             lblStatus.setText(">> Nama developer tersebut sudah memiliki akun.");
