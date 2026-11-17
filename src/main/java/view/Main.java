@@ -10,18 +10,29 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 public class Main extends Application {
-    private static final String FXML_LOGIN = "/main/resources/login_form.fxml";
+    public static final String FXML_LOGIN = "/main/resources/login_form.fxml";
+    public static final String FXML_UTAMA = "/main/resources/main_window.fxml";
+    public static final String FXML_DEVELOPER = "/main/resources/developer_window.fxml";
     private static final String CSS = "/main/resources/css/style.css";
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        tampilkan(primaryStage, FXML_LOGIN, "Stream - Login", 420, 460);
+        tampilkanLogin(primaryStage);
+    }
+
+    // Satu tempat untuk membuka form login (dipakai saat start dan saat logout)
+    public static FXMLLoader tampilkanLogin(Stage stage) throws IOException {
+        return tampilkan(stage, FXML_LOGIN, "Stream - Login", 480, 640);
     }
 
     // Memuat file FXML ke stage yang sama (swap scene) dan mengembalikan loader-nya
     public static FXMLLoader tampilkan(Stage stage, String fxml, String judul,
             double lebar, double tinggi) throws IOException {
-        FXMLLoader loader = new FXMLLoader(Main.class.getResource(fxml));
+        URL lokasi = Main.class.getResource(fxml);
+        if (lokasi == null) {
+            throw new IOException("File FXML tidak ditemukan: " + fxml);
+        }
+        FXMLLoader loader = new FXMLLoader(lokasi);
         Parent root = loader.load();
         Scene scene = new Scene(root, lebar, tinggi);
 

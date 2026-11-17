@@ -6,27 +6,30 @@ public class Game extends ProdukDigital {
 
     public Game(String kodeProduk, String judul, Developer developer, double harga, String genre, double ukuranFile) {
         super(kodeProduk, judul, developer, harga);
-        this.genre = genre;
-        this.ukuranFile = ukuranFile;
+        setGenre(genre);
+        setUkuranFile(ukuranFile);
     }
 
     public Game() {
         super();
     }
 
-    public void setGenre(String genre) { 
-        this.genre = genre; 
+    public void setGenre(String genre) {
+        this.genre = genre;
     }
 
-    public String getGenre() { 
-        return genre; 
+    public String getGenre() {
+        return genre;
     }
 
-    public void setUkuranFile(double ukuranFile) { 
-        this.ukuranFile = ukuranFile; 
+    public void setUkuranFile(double ukuranFile) {
+        if (ukuranFile < 0) {
+            throw new IllegalArgumentException("Ukuran file tidak boleh negatif.");
+        }
+        this.ukuranFile = ukuranFile;
     }
 
-    public double getUkuranFile() { 
-        return ukuranFile; 
+    public double getUkuranFile() {
+        return ukuranFile;
     }
 }

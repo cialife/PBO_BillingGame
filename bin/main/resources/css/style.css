@@ -1,7 +1,11 @@
+/* ---------- Dasar ---------- */
 .root {
     -fx-font-size: 13px;
+    -fx-focus-color: #4a90d9;
+    -fx-faint-focus-color: transparent;
 }
 
+/* ---------- Label ---------- */
 .title-label {
     -fx-font-size: 22px;
     -fx-font-weight: bold;
@@ -12,6 +16,20 @@
     -fx-font-weight: bold;
 }
 
+.subtitle-label,
+.hint-label {
+    -fx-text-fill: #5a6572;
+}
+
+.hint-label {
+    -fx-font-size: 11px;
+}
+
+.status-label {
+    -fx-text-fill: #1b2838;
+}
+
+/* ---------- Top bar ---------- */
 .top-bar {
     -fx-background-color: #1b2838;
     -fx-padding: 10 15 10 15;
@@ -21,6 +39,7 @@
     -fx-text-fill: white;
 }
 
+/* ---------- Tombol ---------- */
 .custom-button {
     -fx-background-color: #4a90d9;
     -fx-text-fill: white;
@@ -30,4 +49,26 @@
 
 .custom-button:hover {
     -fx-background-color: #3b7bc0;
+}
+
+.custom-button:pressed {
+    -fx-background-color: #3269a3;
+}
+
+.secondary-button {
+    -fx-background-color: transparent;
+    -fx-border-color: #b8c0c8;
+    -fx-border-radius: 4;
+    -fx-background-radius: 4;
+    -fx-cursor: hand;
+}
+
+.secondary-button:hover {
+    -fx-background-color: #eceff2;
+}
+
+/* ---------- Tabel ---------- */
+.table-view {
+    -fx-selection-bar: #4a90d9;
+    -fx-selection-bar-non-focused: #9ab9dc;
 }

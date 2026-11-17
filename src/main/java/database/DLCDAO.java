@@ -17,7 +17,7 @@ public class DLCDAO {
             throws SQLException {
         ArrayList<DLC> daftar = new ArrayList<>();
         String sql = "SELECT p.kode_produk, p.judul, d.nama_developer, p.harga, g.genre, g.ukuran_file, "
-                + "x.jenis, bp.judul AS judul_base "
+                + "x.jenis, bp.kode_produk AS kode_base, bp.judul AS judul_base "
                 + "FROM dlc x "
                 + "JOIN game g ON g.id = x.id "
                 + "JOIN produk_digital p ON p.id = g.id "
@@ -28,45 +28,51 @@ public class DLCDAO {
                 Statement stmt = conn.createStatement();
                 ResultSet rs = stmt.executeQuery(sql)) {
             while (rs.next()) {
-                String kode = rs.getString("kode_produk");
                 String genre = rs.getString("genre");
-                String namaBase = rs.getString("judul_base");
-                Developer dev = GameDAO.cariAtauBuatDeveloper(daftarDeveloper, rs.getString("nama_developer"));
+                String kodeBase = rs.getString("kode_base");
+                Developer dev = DeveloperDAO.cariAtauBuat(daftarDeveloper, rs.getString("nama_developer"));
 
+                // Base game dicocokkan lewat kode produk (judul bisa saja kembar)
                 Game baseGame = null;
                 for (Game g : daftarGame) {
-                    if (g.getJudul().toLowerCase().equals(namaBase.toLowerCase())) {
+                    if (g.getKodeProduk().equalsIgnoreCase(kodeBase)) {
                         baseGame = g;
+                        break;
                     }
                 }
                 if (baseGame == null) {
-                    baseGame = new Game("BASE-" + kode, namaBase, dev, 0, genre, 0);
+                    baseGame = new Game(kodeBase, rs.getString("judul_base"), dev, 0, genre, 0);
                 }
 
-                daftar.add(new DLC(kode, rs.getString("judul"), dev, rs.getDouble("harga"), genre,
-                        rs.getDouble("ukuran_file"), rs.getString("jenis"), baseGame));
+                daftar.add(new DLC(rs.getString("kode_produk"), rs.getString("judul"), dev,
+                        rs.getDouble("harga"), genre, rs.getDouble("ukuran_file"), rs.getString("jenis"),
+                        baseGame));
             }
         }
         return daftar;
     }
 
-    // Base game dicari lewat judulnya (sama seperti dlc.txt: kolom terakhir = judul
-    // base game)
+    // Base game dicari lewat kode produk. Jika kodenya kosong (data dari dlc.txt
+    // yang
+    // hanya berisi judul base game), dicari lewat judul.
+    private static int idBaseGame(Connection conn, Game base) throws SQLException {
+        boolean pakaiKode = base.getKodeProduk() != null && !base.getKodeProduk().isBlank();
+        String kolom = pakaiKode ? "p.kode_produk" : "p.judul";
+        String sql = "SELECT p.id FROM produk_digital p JOIN game g ON g.id = p.id "
+                + "WHERE LOWER(" + kolom + ") = LOWER(?)";
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, pakaiKode ? base.getKodeProduk() : base.getJudul());
+            try (ResultSet rs = ps.executeQuery()) {
+                return rs.next() ? rs.getInt(1) : -1;
+            }
+        }
+    }
+
     public static boolean simpanDLC(DLC d) {
         try (Connection conn = PostgreSQLConnection.getConnection()) {
             conn.setAutoCommit(false);
             try {
-                int baseId = -1;
-                try (PreparedStatement ps = conn.prepareStatement(
-                        "SELECT p.id FROM produk_digital p JOIN game g ON g.id = p.id "
-                                + "WHERE LOWER(p.judul) = LOWER(?)")) {
-                    ps.setString(1, d.getBaseGame().getJudul());
-                    try (ResultSet rs = ps.executeQuery()) {
-                        if (rs.next()) {
-                            baseId = rs.getInt(1);
-                        }
-                    }
-                }
+                int baseId = idBaseGame(conn, d.getBaseGame());
                 if (baseId == -1) {
                     System.out.println("[PERINGATAN] DLC " + d.getKodeProduk() + " dilewati: base game '"
                             + d.getBaseGame().getJudul() + "' belum ada di tabel game.");

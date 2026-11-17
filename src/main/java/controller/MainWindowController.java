@@ -4,11 +4,11 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Optional;
-import java.sql.SQLException;
 
 import javafx.application.Platform;
 import javafx.beans.property.SimpleStringProperty;
@@ -24,9 +24,9 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-import main.java.database.AkunDAO;
 import main.java.database.DLCDAO;
 import main.java.database.GameDAO;
+import main.java.database.PembeliDAO;
 import main.java.model.DLC;
 import main.java.model.Developer;
 import main.java.model.Game;
@@ -96,7 +96,6 @@ public class MainWindowController {
     private final ObservableList<ProdukDigital> dataKeranjang = FXCollections.observableArrayList();
 
     private final ArrayList<Developer> daftarDeveloper = new ArrayList<>();
-    private ArrayList<Pembeli> daftarAkun;
     private Pembeli pembeli;
     private Invoice invoice;
 
@@ -135,9 +134,8 @@ public class MainWindowController {
     }
 
     // Dipanggil oleh LoginController setelah berhasil masuk
-    public void setPembeli(Pembeli pembeli, ArrayList<Pembeli> daftarAkun) {
+    public void setPembeli(Pembeli pembeli) {
         this.pembeli = pembeli;
-        this.daftarAkun = daftarAkun;
         lblUser.setText("Masuk sebagai: " + pembeli.getUsername());
         perbaruiPoin();
         muatProduk();
@@ -170,11 +168,24 @@ public class MainWindowController {
         perbaruiRingkasan();
     }
 
+    private boolean sudahDiKeranjang(ProdukDigital produk) {
+        for (ProdukDigital p : dataKeranjang) {
+            if (p.getKodeProduk().equalsIgnoreCase(produk.getKodeProduk())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     @FXML
     private void handleTambahGame() {
         Game game = gameTable.getSelectionModel().getSelectedItem();
         if (game == null) {
             lblStatus.setText(">> Pilih salah satu game pada tabel terlebih dahulu.");
+            return;
+        }
+        if (sudahDiKeranjang(game)) {
+            lblStatus.setText(">> Game " + game.getJudul() + " sudah ada di keranjang.");
             return;
         }
         invoice.tambahProduk(game);
@@ -188,6 +199,10 @@ public class MainWindowController {
         DLC dlc = dlcTable.getSelectionModel().getSelectedItem();
         if (dlc == null) {
             lblStatus.setText(">> Pilih salah satu DLC pada tabel terlebih dahulu.");
+            return;
+        }
+        if (sudahDiKeranjang(dlc)) {
+            lblStatus.setText(">> DLC " + dlc.getJudul() + " sudah ada di keranjang.");
             return;
         }
         invoice.tambahProduk(dlc);
@@ -219,6 +234,8 @@ public class MainWindowController {
         String invNo = waktuSekarang.format(formatNomorInvoice);
         invoice.setInvoiceNo(invNo);
 
+        // Poin ditambahkan dulu agar tampil di teks invoice; dikembalikan jika
+        // dibatalkan/gagal
         int poinLama = pembeli.getPoinStream();
         int poinDidapat = (int) (invoice.getSubtotal() / 1000);
         pembeli.setPoinStream(poinLama + poinDidapat);
@@ -234,17 +251,20 @@ public class MainWindowController {
 
         Optional<ButtonType> hasil = konfirmasi.showAndWait();
         if (hasil.isPresent() && hasil.get() == tombolYa) {
-            prosesKonfirmasi(poinDidapat, invNo);
+            prosesKonfirmasi(poinDidapat, poinLama, invNo);
         } else {
             pembeli.setPoinStream(poinLama);
             lblStatus.setText(">> Pembelian dibatalkan. Poin tidak ditambahkan.");
         }
     }
 
-    private void prosesKonfirmasi(int poinDidapat, String invNo) {
-        if (!AkunDAO.updatePoin(pembeli)) {
+    private void prosesKonfirmasi(int poinDidapat, int poinLama, String invNo) {
+        if (!PembeliDAO.updatePoin(pembeli)) {
+            pembeli.setPoinStream(poinLama); // jangan biarkan poin di memori berbeda dengan database
+            perbaruiPoin();
             tampilkanAlert(Alert.AlertType.ERROR, "Gagal Menyimpan",
-                    "Gagal menyimpan poin Stream ke database.");
+                    "Gagal menyimpan poin Stream ke database. Transaksi dibatalkan.");
+            return;
         }
         tampilkanAlert(Alert.AlertType.INFORMATION, "Pembelian Dikonfirmasi",
                 "Pembelian dikonfirmasi.\nPoin Stream yang didapat: " + poinDidapat);
@@ -288,8 +308,7 @@ public class MainWindowController {
     @FXML
     private void handleLogout() {
         try {
-            Stage stage = (Stage) lblStatus.getScene().getWindow();
-            Main.tampilkan(stage, "/main/resources/login_form.fxml", "Stream - Login", 420, 460);
+            Main.tampilkanLogin((Stage) lblStatus.getScene().getWindow());
         } catch (IOException e) {
             e.printStackTrace();
             tampilkanAlert(Alert.AlertType.ERROR, "Gagal", "Gagal membuka form login: " + e.getMessage());

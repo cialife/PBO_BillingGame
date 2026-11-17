@@ -1,11 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.String?>
+<?import javafx.collections.FXCollections?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.VBox?>
 
@@ -16,7 +21,7 @@
     </padding>
     <children>
         <Label styleClass="title-label" text="STREAM" />
-        <Label text="Sistem Pembuatan Invoice Pembelian Game" />
+        <Label styleClass="subtitle-label" text="Sistem Pembuatan Invoice Pembelian Game" />
 
         <TabPane tabClosingPolicy="UNAVAILABLE" VBox.vgrow="ALWAYS">
             <tabs>
@@ -26,60 +31,137 @@
                             <padding>
                                 <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
                             </padding>
+                            <columnConstraints>
+                                <ColumnConstraints minWidth="130.0" prefWidth="130.0" />
+                                <ColumnConstraints hgrow="ALWAYS" />
+                            </columnConstraints>
                             <children>
-                                <Label text="Username:" GridPane.columnIndex="0"
+                                <Label text="Masuk sebagai:" GridPane.columnIndex="0"
                                     GridPane.rowIndex="0" />
-                                <TextField fx:id="loginUsernameField" promptText="Masukkan username"
-                                    GridPane.columnIndex="1" GridPane.rowIndex="0" />
+                                <ComboBox fx:id="loginRoleCombo" maxWidth="Infinity" value="Pembeli"
+                                    GridPane.columnIndex="1" GridPane.rowIndex="0">
+                                    <items>
+                                        <FXCollections fx:factory="observableArrayList">
+                                            <String fx:value="Pembeli" />
+                                            <String fx:value="Developer" />
+                                        </FXCollections>
+                                    </items>
+                                </ComboBox>
 
-                                <Label text="Email:" GridPane.columnIndex="0" GridPane.rowIndex="1" />
-                                <TextField fx:id="loginEmailField" promptText="Masukkan email"
+                                <Label text="Username:" GridPane.columnIndex="0"
+                                    GridPane.rowIndex="1" />
+                                <TextField fx:id="loginUsernameField" promptText="Masukkan username"
                                     GridPane.columnIndex="1" GridPane.rowIndex="1" />
+
+                                <Label text="Password:" GridPane.columnIndex="0"
+                                    GridPane.rowIndex="2" />
+                                <PasswordField fx:id="loginPasswordField"
+                                    onAction="#handleMasuk" promptText="Masukkan password"
+                                    GridPane.columnIndex="1" GridPane.rowIndex="2" />
 
                                 <Button maxWidth="Infinity" onAction="#handleMasuk"
                                     styleClass="custom-button" text="Masuk" GridPane.columnIndex="1"
-                                    GridPane.rowIndex="2" />
+                                    GridPane.rowIndex="3" />
                             </children>
                         </GridPane>
                     </content>
                 </Tab>
                 <Tab text="Daftar Akun">
                     <content>
-                        <GridPane hgap="10.0" vgap="10.0">
+                        <VBox spacing="10.0">
                             <padding>
                                 <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
                             </padding>
                             <children>
-                                <Label text="Username:" GridPane.columnIndex="0"
-                                    GridPane.rowIndex="0" />
-                                <TextField fx:id="daftarUsernameField" GridPane.columnIndex="1"
-                                    GridPane.rowIndex="0" />
+                                <GridPane hgap="10.0" vgap="10.0">
+                                    <columnConstraints>
+                                        <ColumnConstraints minWidth="130.0" prefWidth="130.0" />
+                                        <ColumnConstraints hgrow="ALWAYS" />
+                                    </columnConstraints>
+                                    <children>
+                                        <Label text="Daftar sebagai:" GridPane.columnIndex="0"
+                                            GridPane.rowIndex="0" />
+                                        <ComboBox fx:id="daftarRoleCombo" maxWidth="Infinity"
+                                            onAction="#handleGantiRoleDaftar" value="Pembeli"
+                                            GridPane.columnIndex="1" GridPane.rowIndex="0">
+                                            <items>
+                                                <FXCollections fx:factory="observableArrayList">
+                                                    <String fx:value="Pembeli" />
+                                                    <String fx:value="Developer" />
+                                                </FXCollections>
+                                            </items>
+                                        </ComboBox>
 
-                                <Label text="Email:" GridPane.columnIndex="0" GridPane.rowIndex="1" />
-                                <TextField fx:id="daftarEmailField" GridPane.columnIndex="1"
-                                    GridPane.rowIndex="1" />
+                                        <Label text="Username:" GridPane.columnIndex="0"
+                                            GridPane.rowIndex="1" />
+                                        <TextField fx:id="daftarUsernameField"
+                                            GridPane.columnIndex="1" GridPane.rowIndex="1" />
 
-                                <Label text="Alamat IP:" GridPane.columnIndex="0"
-                                    GridPane.rowIndex="2" />
-                                <TextField fx:id="daftarIpField" GridPane.columnIndex="1"
-                                    GridPane.rowIndex="2" />
+                                        <Label text="Email:" GridPane.columnIndex="0"
+                                            GridPane.rowIndex="2" />
+                                        <TextField fx:id="daftarEmailField" GridPane.columnIndex="1"
+                                            GridPane.rowIndex="2" />
 
-                                <Label text="Lokasi Pembelian:" GridPane.columnIndex="0"
-                                    GridPane.rowIndex="3" />
-                                <TextField fx:id="daftarLokasiField" GridPane.columnIndex="1"
-                                    GridPane.rowIndex="3" />
+                                        <Label text="Password:" GridPane.columnIndex="0"
+                                            GridPane.rowIndex="3" />
+                                        <PasswordField fx:id="daftarPasswordField"
+                                            GridPane.columnIndex="1" GridPane.rowIndex="3" />
+
+                                        <Label text="Ulangi Password:" GridPane.columnIndex="0"
+                                            GridPane.rowIndex="4" />
+                                        <PasswordField fx:id="daftarKonfirmasiField"
+                                            GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                                    </children>
+                                </GridPane>
+
+                                <!-- Khusus Pembeli -->
+                                <GridPane fx:id="pembeliFields" hgap="10.0" vgap="10.0">
+                                    <columnConstraints>
+                                        <ColumnConstraints minWidth="130.0" prefWidth="130.0" />
+                                        <ColumnConstraints hgrow="ALWAYS" />
+                                    </columnConstraints>
+                                    <children>
+                                        <Label text="Alamat IP:" GridPane.columnIndex="0"
+                                            GridPane.rowIndex="0" />
+                                        <TextField fx:id="daftarIpField"
+                                            promptText="Contoh: 192.168.1.1"
+                                            GridPane.columnIndex="1" GridPane.rowIndex="0" />
+
+                                        <Label text="Lokasi Pembelian:" GridPane.columnIndex="0"
+                                            GridPane.rowIndex="1" />
+                                        <TextField fx:id="daftarLokasiField"
+                                            GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                    </children>
+                                </GridPane>
+
+                                <!-- Khusus Developer -->
+                                <GridPane fx:id="developerFields" hgap="10.0" vgap="10.0">
+                                    <columnConstraints>
+                                        <ColumnConstraints minWidth="130.0" prefWidth="130.0" />
+                                        <ColumnConstraints hgrow="ALWAYS" />
+                                    </columnConstraints>
+                                    <children>
+                                        <Label text="Nama Developer:" GridPane.columnIndex="0"
+                                            GridPane.rowIndex="0" />
+                                        <TextField fx:id="daftarNamaDeveloperField"
+                                            promptText="Nama studio / penerbit"
+                                            GridPane.columnIndex="1" GridPane.rowIndex="0" />
+                                    </children>
+                                </GridPane>
+
+                                <Label styleClass="hint-label" wrapText="true"
+                                    text="Password 8-20 karakter: minimal 1 huruf besar, 1 huruf kecil, 1 angka, dan 1 simbol (!@#$%^&amp;*+=()_-), tanpa spasi." />
 
                                 <Button maxWidth="Infinity" onAction="#handleDaftar"
-                                    styleClass="custom-button" text="Daftar"
-                                    GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                                    styleClass="custom-button" text="Daftar" />
                             </children>
-                        </GridPane>
+                        </VBox>
                     </content>
                 </Tab>
             </tabs>
         </TabPane>
 
-        <Label fx:id="lblStatus" text="" wrapText="true" />
-        <Button onAction="#handleKeluar" text="Keluar" />
+        <Label fx:id="lblStatus" styleClass="status-label" text="" wrapText="true" />
+        <Button onAction="#handleKeluar" styleClass="secondary-button" text="Keluar" />
     </children>
 </VBox>

@@ -1,10 +1,11 @@
 package main.java.model;
+
 public class Developer extends Pengguna {
     private String namaDeveloper;
 
     public Developer(String accountID, String username, String email, String namaDeveloper) {
         super(accountID, username, email);
-        this.namaDeveloper = namaDeveloper;
+        setNamaDeveloper(namaDeveloper);
     }
 
     public Developer() {
@@ -22,5 +23,12 @@ public class Developer extends Pengguna {
     @Override
     public void masukAkun() {
         System.out.println("Developer " + getUsername() + " berhasil masuk.");
+    }
+
+    // Implementasi abstract method validate()
+    @Override
+    public boolean validate() {
+        return usernameValid() && emailValid() && passwordValid()
+                && namaDeveloper != null && !namaDeveloper.isBlank();
     }
 }

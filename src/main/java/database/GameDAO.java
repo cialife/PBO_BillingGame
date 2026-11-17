@@ -12,18 +12,6 @@ import main.java.model.Game;
 
 public class GameDAO {
 
-    public static Developer cariAtauBuatDeveloper(ArrayList<Developer> daftarDeveloper, String nama) {
-        for (Developer d : daftarDeveloper) {
-            if (d.getNamaDeveloper().equals(nama)) {
-                return d;
-            }
-        }
-        Developer baru = new Developer();
-        baru.setNamaDeveloper(nama);
-        daftarDeveloper.add(baru);
-        return baru;
-    }
-
     // Hanya game utama: baris game yang BUKAN DLC
     public static ArrayList<Game> muatGame(ArrayList<Developer> daftarDeveloper) throws SQLException {
         ArrayList<Game> daftar = new ArrayList<>();
@@ -37,7 +25,7 @@ public class GameDAO {
                 Statement stmt = conn.createStatement();
                 ResultSet rs = stmt.executeQuery(sql)) {
             while (rs.next()) {
-                Developer dev = cariAtauBuatDeveloper(daftarDeveloper, rs.getString("nama_developer"));
+                Developer dev = DeveloperDAO.cariAtauBuat(daftarDeveloper, rs.getString("nama_developer"));
                 daftar.add(new Game(rs.getString("kode_produk"), rs.getString("judul"), dev,
                         rs.getDouble("harga"), rs.getString("genre"), rs.getDouble("ukuran_file")));
             }
@@ -45,37 +33,26 @@ public class GameDAO {
         return daftar;
     }
 
-    // ---- Insert (dipakai ImportData; nanti juga bisa dipakai fitur tambah game)
-    // ----
-
-    static int idDeveloper(Connection conn, String nama) throws SQLException {
-        try (PreparedStatement ps = conn.prepareStatement("SELECT id FROM developer WHERE nama_developer = ?")) {
-            ps.setString(1, nama);
+    public static boolean kodeProdukTerpakai(String kode) throws SQLException {
+        String sql = "SELECT 1 FROM produk_digital WHERE LOWER(kode_produk) = LOWER(?)";
+        try (Connection conn = PostgreSQLConnection.getConnection();
+                PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, kode);
             try (ResultSet rs = ps.executeQuery()) {
-                if (rs.next()) {
-                    return rs.getInt(1);
-                }
-            }
-        }
-        try (PreparedStatement ps = conn.prepareStatement(
-                "INSERT INTO developer (nama_developer) VALUES (?)", Statement.RETURN_GENERATED_KEYS)) {
-            ps.setString(1, nama);
-            ps.executeUpdate();
-            try (ResultSet rs = ps.getGeneratedKeys()) {
-                rs.next();
-                return rs.getInt(1);
+                return rs.next();
             }
         }
     }
 
     // Mengisi tabel induk (produk_digital) lalu tabel anak (game); mengembalikan id
-    // baru
+    // baru.
+    // Dipakai juga oleh DLCDAO karena DLC adalah turunan Game.
     static int sisipProdukDanGame(Connection conn, Game g) throws SQLException {
-        int devId = idDeveloper(conn, g.getDeveloper().getNamaDeveloper());
+        int devId = DeveloperDAO.idDeveloper(conn, g.getDeveloper().getNamaDeveloper());
         int id;
         try (PreparedStatement ps = conn.prepareStatement(
                 "INSERT INTO produk_digital (kode_produk, judul, developer_id, harga) VALUES (?, ?, ?, ?)",
-                Statement.RETURN_GENERATED_KEYS)) {
+                new String[] { "id" })) {
             ps.setString(1, g.getKodeProduk());
             ps.setString(2, g.getJudul());
             ps.setInt(3, devId);

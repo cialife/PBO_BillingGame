@@ -1,4 +1,5 @@
 package main.java.model;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
@@ -17,11 +18,11 @@ public class Invoice implements Cetak {
     private Pembayaran pembayaran;
 
     public Invoice(String invoiceNo, String tanggal, Pembeli pembeli, Pembayaran pembayaran) {
-        this.invoiceNo = invoiceNo;
-        this.tanggal = tanggal;
-        this.pembeli = pembeli;
-        this.pembayaran = pembayaran;
-        this.listProduk = new ArrayList<>();
+        this();
+        setInvoiceNo(invoiceNo);
+        setTanggal(tanggal);
+        setPembeli(pembeli);
+        setPembayaran(pembayaran);
     }
 
     public Invoice() {
@@ -29,8 +30,10 @@ public class Invoice implements Cetak {
     }
 
     public void tambahProduk(ProdukDigital produk) {
-        listProduk.add(produk);
-        hitungTotal();
+        if (produk != null) {
+            listProduk.add(produk);
+            hitungTotal();
+        }
     }
 
     public void hitungTotal() {
@@ -76,7 +79,7 @@ public class Invoice implements Cetak {
     }
 
     public void setListProduk(ArrayList<ProdukDigital> listProduk) {
-        this.listProduk = listProduk;
+        this.listProduk = (listProduk == null) ? new ArrayList<>() : listProduk;
         hitungTotal();
     }
 
@@ -97,59 +100,66 @@ public class Invoice implements Cetak {
     }
 
     private String rupiah(double nilai) {
-        return "Rp " + Math.round(nilai);
+        return String.format("Rp %,.0f", nilai);
+    }
+
+    // Satu baris "label : nilai" dengan label rata kiri agar kolom titik dua
+    // sejajar
+    private String baris(String label, String nilai) {
+        return String.format("%-30s : %s\n", label, nilai);
     }
 
     private String buatTeksInvoice() {
-        String garisTebal = "===============================================================\n";
-        String garisTipis = "---------------------------------------------------------------\n";
-        String teks = "";
+        String garisTebal = "=".repeat(63) + "\n";
+        String garisTipis = "-".repeat(63) + "\n";
+        StringBuilder teks = new StringBuilder();
 
-        teks = teks + garisTebal;
-        teks = teks + "        Terima kasih atas transaksi terbarumu di Stream\n";
-        teks = teks + garisTebal;
-        teks = teks + "Item di bawah ini telah ditambahkan ke Perpustakaan Stream-mu.\n\n";
+        teks.append(garisTebal);
+        teks.append("        Terima kasih atas transaksi terbarumu di Stream\n");
+        teks.append(garisTebal);
+        teks.append("Item di bawah ini telah ditambahkan ke Perpustakaan Stream-mu.\n\n");
 
         if (pembeli != null) {
-            teks = teks + "POIN STREAM-MU: " + pembeli.getPoinStream() + "\n\n";
+            teks.append("POIN STREAM-MU: ").append(pembeli.getPoinStream()).append("\n\n");
         }
 
-        teks = teks + garisTipis;
+        teks.append(garisTipis);
         for (ProdukDigital p : listProduk) {
             double itemPPN = p.hitungPPN(p.getHarga());
-            teks = teks + p.getJudul() + "\n";
-            teks = teks + "   Subtotal (tanpa PPN)         : " + rupiah(p.getHarga()) + "\n";
-            teks = teks + "   PPN di " + ProdukDigital.PERSEN_PPN + "%                   : " + rupiah(itemPPN) + "\n";
-            teks = teks + "   Total                        : " + rupiah(p.getHarga() + itemPPN) + "\n\n";
+            teks.append(p.getJudul()).append("\n");
+            teks.append(baris("   Subtotal (tanpa PPN)", rupiah(p.getHarga())));
+            teks.append(baris("   PPN di " + ProdukDigital.PERSEN_PPN + "%", rupiah(itemPPN)));
+            teks.append(baris("   Total", rupiah(p.getHarga() + itemPPN)));
+            teks.append("\n");
         }
-        teks = teks + garisTipis;
+        teks.append(garisTipis);
         if (pembeli != null) {
-            teks = teks + "Username                        : " + pembeli.getUsername() + "\n";
+            teks.append(baris("Username", pembeli.getUsername()));
         }
-        teks = teks + "Invoice No                      : " + invoiceNo + "\n";
-        teks = teks + "Tanggal dibuat                  : " + tanggal + "\n";
-        teks = teks + garisTipis;
-        teks = teks + "Subtotal (tanpa PPN)            : " + rupiah(subtotal) + "\n";
-        teks = teks + "PPN di " + ProdukDigital.PERSEN_PPN + "%                      : " + rupiah(ppn) + "\n";
-        teks = teks + "Total                           : " + rupiah(totalTagihan) + "\n";
-        teks = teks + garisTipis;
+        teks.append(baris("Invoice No", invoiceNo));
+        teks.append(baris("Tanggal dibuat", tanggal));
+        teks.append(garisTipis);
+        teks.append(baris("Subtotal (tanpa PPN)", rupiah(subtotal)));
+        teks.append(baris("PPN di " + ProdukDigital.PERSEN_PPN + "%", rupiah(ppn)));
+        teks.append(baris("Total", rupiah(totalTagihan)));
+        teks.append(garisTipis);
         if (pembeli != null) {
-            teks = teks + "Pesanan ini dipesan dari alamat IP:\n";
-            teks = teks + pembeli.getAlamatIP() + "\n";
-            teks = teks + pembeli.getLokasi() + "\n";
+            teks.append("Pesanan ini dipesan dari alamat IP:\n");
+            teks.append(pembeli.getAlamatIP()).append("\n");
+            teks.append(pembeli.getLokasi()).append("\n");
         }
-        teks = teks + garisTipis;
-        teks = teks + penerbit + "\n";
-        teks = teks + alamat + "\n";
-        teks = teks + "ID PPN: " + IDPPN + "\n";
-        teks = teks + garisTipis;
+        teks.append(garisTipis);
+        teks.append(PENERBIT).append("\n");
+        teks.append(ALAMAT).append("\n");
+        teks.append("ID PPN: ").append(IDPPN).append("\n");
+        teks.append(garisTipis);
         if (pembeli != null && pembayaran != null) {
-            teks = teks + "Username                        : " + pembeli.getUsername() + "\n";
-            teks = teks + "Metode Pembayaran               : " + pembayaran.getMetodePembayaran() + "\n";
-            teks = teks + "Total Transaksimu               : " + rupiah(totalTagihan) + "\n";
+            teks.append(baris("Username", pembeli.getUsername()));
+            teks.append(baris("Metode Pembayaran", pembayaran.getMetodePembayaran()));
+            teks.append(baris("Total Transaksimu", rupiah(totalTagihan)));
         }
-        teks = teks + garisTebal;
-        return teks;
+        teks.append(garisTebal);
+        return teks.toString();
     }
 
     public String getTeksInvoice() {
@@ -162,10 +172,9 @@ public class Invoice implements Cetak {
     }
 
     public void simpanKeFile(String namaFile) {
-        try {
-            FileWriter fw = new FileWriter(namaFile);
+        // try-with-resources: file pasti tertutup walau terjadi error
+        try (FileWriter fw = new FileWriter(namaFile)) {
             fw.write(buatTeksInvoice());
-            fw.close();
             System.out.println(">> [SUCCESS] Invoice berhasil disimpan ke file: " + namaFile);
         } catch (IOException e) {
             System.out.println("[ERROR] Gagal menulis ke file: " + namaFile);
@@ -174,16 +183,12 @@ public class Invoice implements Cetak {
     }
 
     public static void bacaDariFile(String namaFile) {
-        try {
-            File file = new File(namaFile);
-            Scanner reader = new Scanner(file);
+        try (Scanner reader = new Scanner(new File(namaFile))) {
             System.out.println("\n-------- MEMBACA ISI FILE (" + namaFile + ") --------");
             while (reader.hasNextLine()) {
-                String line = reader.nextLine();
-                System.out.println(line);
+                System.out.println(reader.nextLine());
             }
             System.out.println("----------------------- AKHIR DARI FILE -----------------------\n");
-            reader.close();
         } catch (FileNotFoundException e) {
             System.out.println("[ERROR] File '" + namaFile + "' tidak ditemukan!");
         }

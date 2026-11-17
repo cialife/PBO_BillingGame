@@ -4,29 +4,30 @@ public class DLC extends Game {
     private String jenis;
     private Game baseGame;
 
-    public DLC(String kodeProduk, String judul, Developer developer, double harga, String genre, double ukuranFile, String jenis, Game baseGame) {
+    public DLC(String kodeProduk, String judul, Developer developer, double harga, String genre, double ukuranFile,
+            String jenis, Game baseGame) {
         super(kodeProduk, judul, developer, harga, genre, ukuranFile);
-        this.jenis = jenis;
-        this.baseGame = baseGame;
+        setJenis(jenis);
+        setBaseGame(baseGame);
     }
 
     public DLC() {
         super();
     }
 
-    public void setBaseGame(Game baseGame) { 
-        this.baseGame = baseGame; 
+    public void setBaseGame(Game baseGame) {
+        this.baseGame = baseGame;
     }
 
-    public Game getBaseGame() { 
-        return baseGame; 
+    public Game getBaseGame() {
+        return baseGame;
     }
 
-    public void setJenis(String jenis) { 
-        this.jenis = jenis; 
+    public void setJenis(String jenis) {
+        this.jenis = jenis;
     }
 
-    public String getJenis() { 
-        return jenis; 
+    public String getJenis() {
+        return jenis;
     }
 }
