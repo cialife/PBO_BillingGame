@@ -89,4 +89,80 @@ public class GameDAO {
             return false;
         }
     }
+
+    // Ubah produk (game atau DLC). Kode produk tidak diubah. jenis hanya dipakai untuk DLC (null untuk game).
+    public static boolean ubahProduk(String kode, String judul, double harga, String genre,
+            double ukuran, String jenis) {
+        try (Connection conn = PostgreSQLConnection.getConnection()) {
+            conn.setAutoCommit(false);
+            try {
+                int id;
+                try (PreparedStatement ps = conn.prepareStatement(
+                        "UPDATE produk_digital SET judul = ?, harga = ? WHERE kode_produk = ? RETURNING id")) {
+                    ps.setString(1, judul);
+                    ps.setDouble(2, harga);
+                    ps.setString(3, kode);
+                    try (ResultSet rs = ps.executeQuery()) {
+                        if (!rs.next()) {
+                            conn.rollback();
+                            return false;
+                        }
+                        id = rs.getInt(1);
+                    }
+                }
+                try (PreparedStatement ps = conn.prepareStatement(
+                        "UPDATE game SET genre = ?, ukuran_file = ? WHERE id = ?")) {
+                    ps.setString(1, genre);
+                    ps.setDouble(2, ukuran);
+                    ps.setInt(3, id);
+                    ps.executeUpdate();
+                }
+                if (jenis != null) {
+                    try (PreparedStatement ps = conn.prepareStatement("UPDATE dlc SET jenis = ? WHERE id = ?")) {
+                        ps.setString(1, jenis);
+                        ps.setInt(2, id);
+                        ps.executeUpdate();
+                    }
+                }
+                conn.commit();
+                return true;
+            } catch (SQLException e) {
+                conn.rollback();
+                throw e;
+            }
+        } catch (SQLException e) {
+            System.out.println("[ERROR] Gagal mengubah produk " + kode + ": " + e.getMessage());
+            return false;
+        }
+    }
+
+    // Hapus produk. Jika yang dihapus adalah game utama, DLC miliknya ikut dihapus
+    // (kolom base_game_id tidak punya ON DELETE CASCADE, jadi harus dihapus dulu).
+    public static boolean hapusProduk(String kode) {
+        try (Connection conn = PostgreSQLConnection.getConnection()) {
+            conn.setAutoCommit(false);
+            try {
+                try (PreparedStatement ps = conn.prepareStatement(
+                        "DELETE FROM produk_digital WHERE id IN (SELECT x.id FROM dlc x "
+                                + "JOIN produk_digital b ON b.id = x.base_game_id WHERE b.kode_produk = ?)")) {
+                    ps.setString(1, kode);
+                    ps.executeUpdate();
+                }
+                int terhapus;
+                try (PreparedStatement ps = conn.prepareStatement(
+                        "DELETE FROM produk_digital WHERE kode_produk = ?")) {
+                    ps.setString(1, kode);
+                    terhapus = ps.executeUpdate();
+                }
+                conn.commit();
+                return terhapus > 0;
+            } catch (SQLException e) {
+                conn.rollback();
+                throw e;
+            }
+        } catch (SQLException e) {
+            System.out.println("[ERROR] Gagal menghapus produk " + kode + ": " + e.getMessage());
+            return false;
+        }
+    }
 }

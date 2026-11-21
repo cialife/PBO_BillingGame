@@ -1,27 +1,27 @@
 {
-    "version": "0.2.0",
-    "configurations": [
-        {
-            "type": "java",
-            "name": "Main",
-            "request": "launch",
-            "mainClass": "main.java.view.Main",
-            "projectName": "PBO_BillingGame_69f221bf"
-        },
-        {
-            "type": "java",
-            "name": "App",
-            "request": "launch",
-            "mainClass": "App",
-            "projectName": "PBO_BillingGame_69f221bf",
-            "vmArgs": "--module-path \"C:/Users/melvina/OneDrive - Universitas Tarumanagara/Desktop/Tugas/Kuliah Mel/Semester 3/Object Oriented Programming/javafx-sdk/javafx-sdk-27/lib\" --add-modules javafx.controls,javafx.fxml --enable-native-access=javafx.graphics"
-        },
-        {
-            "type": "java",
-            "name": "ImportData (sekali saja)",
-            "request": "launch",
-            "mainClass": "main.java.database.ImportData",
-            "projectName": "PBO_BillingGame_69f221bf"
-        }
-    ]
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "java",
+      "name": "Main",
+      "request": "launch",
+      "mainClass": "main.java.view.Main",
+      "projectName": "PBO_BillingGame_69f221bf"
+    },
+    {
+      "type": "java",
+      "name": "App",
+      "request": "launch",
+      "mainClass": "App",
+      "projectName": "PBO_BillingGame_69f221bf",
+      "vmArgs": "--module-path \"C:/Users/melvina/OneDrive - Universitas Tarumanagara/Desktop/Tugas/Kuliah Mel/Semester 3/Object Oriented Programming/javafx-sdk/javafx-sdk-27/lib\" --add-modules javafx.controls,javafx.fxml --enable-native-access=javafx.graphics"
+    },
+    {
+      "type": "java",
+      "name": "ImportData (sekali saja)",
+      "request": "launch",
+      "mainClass": "main.java.database.ImportData",
+      "projectName": "PBO_BillingGame_69f221bf"
+    }
+  ]
 }

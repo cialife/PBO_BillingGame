@@ -149,6 +149,9 @@
             </padding>
             <children>
                 <Label styleClass="section-label" text="Produk Saya" />
+
+                <TextField fx:id="searchField" promptText="Cari judul atau kode..."/>
+
                 <TableView fx:id="produkTable" VBox.vgrow="ALWAYS">
                     <columns>
                         <TableColumn fx:id="colKode" prefWidth="70.0" text="Kode" />
@@ -160,6 +163,13 @@
                         <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                     </columnResizePolicy>
                 </TableView>
+
+                <HBox spacing="10.0">
+                    <children>
+                        <Button onAction="#handleUbah" styleClass="custom-button" text="Ubah" />
+                        <Button onAction="#handleHapus" styleClass="custom-button" text="Hapus" />
+                    </children>
+                </HBox>
             </children>
         </VBox>
     </right>
