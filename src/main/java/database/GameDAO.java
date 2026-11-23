@@ -19,7 +19,8 @@ public class GameDAO {
                 + "FROM produk_digital p "
                 + "JOIN game g ON g.id = p.id "
                 + "JOIN developer d ON d.id = p.developer_id "
-                + "WHERE NOT EXISTS (SELECT 1 FROM dlc x WHERE x.id = g.id) "
+                + "WHERE p.aktif = TRUE " 
+                + "AND NOT EXISTS (SELECT 1 FROM dlc x WHERE x.id = g.id) "
                 + "ORDER BY p.id";
         try (Connection conn = PostgreSQLConnection.getConnection();
                 Statement stmt = conn.createStatement();
@@ -143,14 +144,16 @@ public class GameDAO {
             conn.setAutoCommit(false);
             try {
                 try (PreparedStatement ps = conn.prepareStatement(
-                        "DELETE FROM produk_digital WHERE id IN (SELECT x.id FROM dlc x "
+                        "UPDATE produk_digital SET aktif = FALSE "
+                                + "WHERE aktif = TRUE AND id IN (SELECT x.id FROM dlc x "
                                 + "JOIN produk_digital b ON b.id = x.base_game_id WHERE b.kode_produk = ?)")) {
                     ps.setString(1, kode);
                     ps.executeUpdate();
                 }
                 int terhapus;
                 try (PreparedStatement ps = conn.prepareStatement(
-                        "DELETE FROM produk_digital WHERE kode_produk = ?")) {
+                        "UPDATE produk_digital SET aktif = FALSE " 
+                                + "WHERE kode_produk = ? AND aktif = TRUE")) {
                     ps.setString(1, kode);
                     terhapus = ps.executeUpdate();
                 }

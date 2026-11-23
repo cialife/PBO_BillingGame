@@ -23,6 +23,7 @@ public class DLCDAO {
                 + "JOIN produk_digital p ON p.id = g.id "
                 + "JOIN developer d ON d.id = p.developer_id "
                 + "JOIN produk_digital bp ON bp.id = x.base_game_id "
+                + "WHERE p.aktif = TRUE AND bp.aktif = TRUE "
                 + "ORDER BY p.id";
         try (Connection conn = PostgreSQLConnection.getConnection();
                 Statement stmt = conn.createStatement();
@@ -59,7 +60,7 @@ public class DLCDAO {
         boolean pakaiKode = base.getKodeProduk() != null && !base.getKodeProduk().isBlank();
         String kolom = pakaiKode ? "p.kode_produk" : "p.judul";
         String sql = "SELECT p.id FROM produk_digital p JOIN game g ON g.id = p.id "
-                + "WHERE LOWER(" + kolom + ") = LOWER(?)";
+                + "WHERE LOWER(" + kolom + ") = LOWER(?) AND p.aktif = TRUE";
         try (PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, pakaiKode ? base.getKodeProduk() : base.getJudul());
             try (ResultSet rs = ps.executeQuery()) {

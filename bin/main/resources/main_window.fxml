@@ -8,6 +8,7 @@
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
@@ -133,7 +134,7 @@
                 </GridPane>
 
                 <Label text="Metode Pembayaran:" />
-                <TextField fx:id="metodeField" promptText="Contoh: Transfer Bank" />
+                <ComboBox fx:id="BoxMetodePembayaran" prefWidth="200.0" promptText="Pilih Metode Pembayaran" />
                 <Button maxWidth="Infinity" onAction="#handleCheckout" styleClass="custom-button"
                     text="Checkout" />
             </children>

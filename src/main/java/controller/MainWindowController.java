@@ -22,11 +22,11 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
+import javafx.scene.control.ComboBox;
 import javafx.stage.Stage;
 import main.java.database.DLCDAO;
 import main.java.database.GameDAO;
-import main.java.database.PembeliDAO;
+import main.java.database.InvoiceDAO;
 import main.java.model.DLC;
 import main.java.model.Developer;
 import main.java.model.Game;
@@ -86,7 +86,8 @@ public class MainWindowController {
     @FXML
     private Label lblTotal;
     @FXML
-    private TextField metodeField;
+    private ComboBox<String> BoxMetodePembayaran;
+
     @FXML
     private Label lblStatus;
 
@@ -131,6 +132,8 @@ public class MainWindowController {
         });
         colKeranjangHarga.setCellValueFactory(c -> new SimpleStringProperty(formatRupiah(c.getValue().getHarga())));
         keranjangTable.setItems(dataKeranjang);
+
+        BoxMetodePembayaran.getItems().addAll("QRIS", "E-Wallet", "Transfer Bank");
     }
 
     // Dipanggil oleh LoginController setelah berhasil masuk
@@ -164,7 +167,7 @@ public class MainWindowController {
         invoice = new Invoice();
         invoice.setPembeli(pembeli);
         dataKeranjang.clear();
-        metodeField.clear();
+        BoxMetodePembayaran.getSelectionModel().clearSelection();
         perbaruiRingkasan();
     }
 
@@ -219,8 +222,8 @@ public class MainWindowController {
             return;
         }
 
-        String metode = metodeField.getText().trim();
-        if (metode.equals("")) {
+        String metode = BoxMetodePembayaran.getValue();
+        if (metode == null || metode.isBlank()) {
             tampilkanAlert(Alert.AlertType.WARNING, "Metode Pembayaran",
                     "Metode pembayaran tidak boleh kosong!");
             return;
@@ -259,11 +262,11 @@ public class MainWindowController {
     }
 
     private void prosesKonfirmasi(int poinDidapat, int poinLama, String invNo) {
-        if (!PembeliDAO.updatePoin(pembeli)) {
-            pembeli.setPoinStream(poinLama); // jangan biarkan poin di memori berbeda dengan database
+        if (!InvoiceDAO.simpan(invoice, poinDidapat)) {
+            pembeli.setPoinStream(poinLama); // memori harus sama dengan database
             perbaruiPoin();
             tampilkanAlert(Alert.AlertType.ERROR, "Gagal Menyimpan",
-                    "Gagal menyimpan poin Stream ke database. Transaksi dibatalkan.");
+                    "Gagal menyimpan invoice ke database. Transaksi dibatalkan.");
             return;
         }
         tampilkanAlert(Alert.AlertType.INFORMATION, "Pembelian Dikonfirmasi",
