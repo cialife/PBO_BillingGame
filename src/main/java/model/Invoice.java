@@ -107,7 +107,7 @@ public class Invoice implements Cetak {
         return String.format("%-30s : %s\n", label, nilai);
     }
 
-    private String buatTeksInvoice() {
+    private String setTeksInvoice() {
         String garisTebal = "=".repeat(63) + "\n";
         String garisTipis = "-".repeat(63) + "\n";
         StringBuilder teks = new StringBuilder();
@@ -161,17 +161,17 @@ public class Invoice implements Cetak {
     }
 
     public String getTeksInvoice() {
-        return buatTeksInvoice();
+        return setTeksInvoice();
     }
 
     @Override
     public void tampilkanInvoice() {
-        System.out.print(buatTeksInvoice());
+        System.out.print(setTeksInvoice());
     }
 
     public void simpanKeFile(String namaFile) {
         try (FileWriter fw = new FileWriter(namaFile)) {
-            fw.write(buatTeksInvoice());
+            fw.write(setTeksInvoice());
             System.out.println(">> [SUCCESS] Invoice berhasil disimpan ke file: " + namaFile);
         } catch (IOException e) {
             System.out.println("[ERROR] Gagal menulis ke file: " + namaFile);
