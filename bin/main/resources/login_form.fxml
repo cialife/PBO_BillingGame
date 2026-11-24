@@ -148,10 +148,7 @@
                                             GridPane.columnIndex="1" GridPane.rowIndex="0" />
                                     </children>
                                 </GridPane>
-
-                                <Label styleClass="hint-label" wrapText="true"
-                                    text="Password 8-20 karakter: minimal 1 huruf besar, 1 huruf kecil, 1 angka, dan 1 simbol (!@#$%^&amp;*+=()_-), tanpa spasi." />
-
+                        
                                 <Button maxWidth="Infinity" onAction="#handleDaftar"
                                     styleClass="custom-button" text="Daftar" />
                             </children>

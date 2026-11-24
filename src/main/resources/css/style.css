@@ -16,13 +16,8 @@
     -fx-font-weight: bold;
 }
 
-.subtitle-label,
-.hint-label {
+.subtitle-label {
     -fx-text-fill: #5a6572;
-}
-
-.hint-label {
-    -fx-font-size: 11px;
 }
 
 .status-label {

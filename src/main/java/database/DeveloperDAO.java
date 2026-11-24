@@ -55,7 +55,7 @@ public class DeveloperDAO {
     }
 
     // ---- Akun developer ----
-
+    
     public static boolean usernameTerpakai(String username) throws SQLException {
         String sql = "SELECT 1 FROM developer WHERE LOWER(username) = LOWER(?)";
         try (Connection conn = PostgreSQLConnection.getConnection();

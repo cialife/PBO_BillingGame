@@ -1,0 +1,41 @@
+===============================================================
+        Terima kasih atas transaksi terbarumu di Stream
+===============================================================
+Item di bawah ini telah ditambahkan ke Perpustakaan Stream-mu.
+
+POIN STREAM-MU: 399
+
+---------------------------------------------------------------
+Borderlands 3: Bounty of Blood
+   Subtotal (tanpa PPN)        : Rp 150,000
+   PPN di 11%                  : Rp 16,500
+   Total                       : Rp 166,500
+
+The Witcher 3: Wild Hunt
+   Subtotal (tanpa PPN)        : Rp 249,000
+   PPN di 11%                  : Rp 27,390
+   Total                       : Rp 276,390
+
+---------------------------------------------------------------
+Username                       : feli
+Invoice No                     : 20261124092426
+Tanggal dibuat                 : 24-11-2026 09:24:26
+---------------------------------------------------------------
+Subtotal (tanpa PPN)           : Rp 399,000
+PPN di 11%                     : Rp 43,890
+Total                          : Rp 442,890
+---------------------------------------------------------------
+Pesanan ini dipesan dari alamat IP:
+192.168.1.1
+Jakarta Barat
+---------------------------------------------------------------
+Valve Corporation
+PO Box 1688
+Bellevue, WA 98009
+United States
+ID PPN: 021629266053000
+---------------------------------------------------------------
+Username                       : feli
+Metode Pembayaran              : E-Wallet
+Total Transaksimu              : Rp 442,890
+===============================================================
