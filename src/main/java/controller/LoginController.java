@@ -20,6 +20,11 @@ import main.java.model.Pembeli;
 import main.java.view.Main;
 
 public class LoginController {
+    // Pesan bila validate() (abstract method dari Pengguna) mengembalikan false
+    private static final String PESAN_AKUN_TIDAK_VALID = ">> Data tidak valid. Username 3-30 karakter "
+            + "(huruf, angka, _ atau .), email harus valid, dan password 8-20 karakter berisi angka, "
+            + "huruf besar, huruf kecil, serta simbol (!@#$%^&*+=()_-) tanpa spasi.";
+
     // Tab Masuk
     @FXML
     private ComboBox<String> loginRoleCombo;
@@ -102,6 +107,10 @@ public class LoginController {
                 daftarLokasiField.getText().trim(), 0);
         baru.setPassword(password);
 
+        if (!baru.validate()) {
+            lblStatus.setText(PESAN_AKUN_TIDAK_VALID + " Alamat IP harus IPv4 yang valid dan lokasi wajib diisi.");
+            return;
+        }
         if (PembeliDAO.usernameTerpakai(username)) {
             lblStatus.setText(">> Username sudah terdaftar.");
         } else if (PembeliDAO.tambah(baru)) {
@@ -123,6 +132,10 @@ public class LoginController {
         Developer baru = new Developer("", username, email, nama);
         baru.setPassword(password);
 
+        if (!baru.validate()) {
+            lblStatus.setText(PESAN_AKUN_TIDAK_VALID);
+            return;
+        }
         if (DeveloperDAO.usernameTerpakai(username)) {
             lblStatus.setText(">> Username developer sudah terdaftar.");
         } else if (DeveloperDAO.namaSudahPunyaAkun(nama)) {

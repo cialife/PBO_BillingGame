@@ -1,9 +1,8 @@
 package main.java.controller;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -295,14 +294,14 @@ public class MainWindowController {
 
     private void bacaInvoiceDariFile(String namaFile) {
         try {
-            String isi = Files.readString(Path.of(namaFile));
+            String isi = Invoice.bacaIsiFile(namaFile);
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Isi File Invoice");
             alert.setHeaderText(namaFile);
             alert.getDialogPane().setContent(buatAreaTeks(isi));
             alert.setResizable(true);
             alert.showAndWait();
-        } catch (IOException e) {
+        } catch (FileNotFoundException e) {
             tampilkanAlert(Alert.AlertType.ERROR, "Gagal Membaca File",
                     "File '" + namaFile + "' tidak ditemukan atau tidak bisa dibaca!");
         }

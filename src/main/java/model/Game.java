@@ -32,4 +32,10 @@ public class Game extends ProdukDigital {
     public double getUkuranFile() {
         return ukuranFile;
     }
+
+    // Dipakai ComboBox<Game> untuk menampilkan teks pilihan
+    @Override
+    public String toString() {
+        return getJudul();
+    }
 }

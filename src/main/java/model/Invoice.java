@@ -182,6 +182,19 @@ public class Invoice implements Cetak {
         }
     }
 
+    // Membaca seluruh isi file teks (File + Scanner seperti di materi Library
+    // Classes)
+    // dan mengembalikannya sebagai String agar bisa ditampilkan di GUI
+    public static String bacaIsiFile(String namaFile) throws FileNotFoundException {
+        StringBuilder isi = new StringBuilder();
+        try (Scanner reader = new Scanner(new File(namaFile))) {
+            while (reader.hasNextLine()) {
+                isi.append(reader.nextLine()).append("\n");
+            }
+        }
+        return isi.toString();
+    }
+
     public static void bacaDariFile(String namaFile) {
         try (Scanner reader = new Scanner(new File(namaFile))) {
             System.out.println("\n-------- MEMBACA ISI FILE (" + namaFile + ") --------");

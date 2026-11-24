@@ -21,7 +21,6 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.Dialog;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
-import javafx.util.StringConverter;
 import main.java.database.DLCDAO;
 import main.java.database.GameDAO;
 import main.java.model.DLC;
@@ -77,11 +76,11 @@ public class DeveloperWindowController {
     private TableColumn<ProdukDigital, String> colHarga;
     @FXML
     private TextField searchField;
-    
+
     private final ObservableList<ProdukDigital> dataProduk = FXCollections.observableArrayList();
     private final ObservableList<Game> dataGameSaya = FXCollections.observableArrayList();
     private final FilteredList<ProdukDigital> dataTersaring = new FilteredList<>(dataProduk, p -> true);
-    
+
     private Developer developer;
 
     @FXML
@@ -98,18 +97,8 @@ public class DeveloperWindowController {
                     || p.getKodeProduk().toLowerCase().contains(kata));
         });
 
+        // Teks pilihan diambil dari Game.toString()
         dlcBaseGameCombo.setItems(dataGameSaya);
-        dlcBaseGameCombo.setConverter(new StringConverter<Game>() {
-            @Override
-            public String toString(Game g) {
-                return g == null ? "" : g.getJudul();
-            }
-
-            @Override
-            public Game fromString(String s) {
-                return null;
-            }
-        });
         // Genre DLC otomatis terisi dari base game yang dipilih (masih bisa diubah)
         dlcBaseGameCombo.valueProperty().addListener((obs, lama, baru) -> {
             if (baru != null) {
@@ -357,6 +346,7 @@ public class DeveloperWindowController {
             lblStatus.setText("[ERROR] Gagal menghapus produk (lihat terminal).");
         }
     }
+
     @FXML
     private void handleLogout() {
         try {
