@@ -33,7 +33,6 @@ public class DLCDAO {
                 String kodeBase = rs.getString("kode_base");
                 Developer dev = DeveloperDAO.cariAtauBuat(daftarDeveloper, rs.getString("nama_developer"));
 
-                // Base game dicocokkan lewat kode produk (judul bisa saja kembar)
                 Game baseGame = null;
                 for (Game g : daftarGame) {
                     if (g.getKodeProduk().equalsIgnoreCase(kodeBase)) {
@@ -53,9 +52,6 @@ public class DLCDAO {
         return daftar;
     }
 
-    // Base game dicari lewat kode produk. Jika kodenya kosong (data dari dlc.txt
-    // yang
-    // hanya berisi judul base game), dicari lewat judul.
     private static int idBaseGame(Connection conn, Game base) throws SQLException {
         boolean pakaiKode = base.getKodeProduk() != null && !base.getKodeProduk().isBlank();
         String kolom = pakaiKode ? "p.kode_produk" : "p.judul";

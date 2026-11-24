@@ -11,8 +11,6 @@ import main.java.model.Developer;
 import main.java.model.Game;
 
 public class GameDAO {
-
-    // Hanya game utama: baris game yang BUKAN DLC
     public static ArrayList<Game> muatGame(ArrayList<Developer> daftarDeveloper) throws SQLException {
         ArrayList<Game> daftar = new ArrayList<>();
         String sql = "SELECT p.kode_produk, p.judul, d.nama_developer, p.harga, g.genre, g.ukuran_file "
@@ -45,9 +43,6 @@ public class GameDAO {
         }
     }
 
-    // Mengisi tabel induk (produk_digital) lalu tabel anak (game); mengembalikan id
-    // baru.
-    // Dipakai juga oleh DLCDAO karena DLC adalah turunan Game.
     static int sisipProdukDanGame(Connection conn, Game g) throws SQLException {
         int devId = DeveloperDAO.idDeveloper(conn, g.getDeveloper().getNamaDeveloper());
         int id;
@@ -91,7 +86,6 @@ public class GameDAO {
         }
     }
 
-    // Ubah produk (game atau DLC). Kode produk tidak diubah. jenis hanya dipakai untuk DLC (null untuk game).
     public static boolean ubahProduk(String kode, String judul, double harga, String genre,
             double ukuran, String jenis) {
         try (Connection conn = PostgreSQLConnection.getConnection()) {
@@ -137,8 +131,6 @@ public class GameDAO {
         }
     }
 
-    // Hapus produk. Jika yang dihapus adalah game utama, DLC miliknya ikut dihapus
-    // (kolom base_game_id tidak punya ON DELETE CASCADE, jadi harus dihapus dulu).
     public static boolean hapusProduk(String kode) {
         try (Connection conn = PostgreSQLConnection.getConnection()) {
             conn.setAutoCommit(false);

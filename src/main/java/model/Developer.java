@@ -25,7 +25,6 @@ public class Developer extends Pengguna {
         System.out.println("Developer " + getUsername() + " berhasil masuk.");
     }
 
-    // Implementasi abstract method validate()
     @Override
     public boolean validate() {
         return usernameValid() && emailValid() && passwordValid()

@@ -8,13 +8,10 @@ import java.sql.SQLException;
 import java.util.Properties;
 
 public class PostgreSQLConnection {
-    // Kredensial dibaca dari file ini (jangan di-commit ke Git), bukan ditulis di
-    // source code
     private static final String FILE_KONFIG = "db.properties";
     private static Properties konfigurasi;
 
     public static Connection getConnection() throws SQLException {
-        // Daftarkan driver secara eksplisit karena project tanpa build tool
         try {
             Class.forName("org.postgresql.Driver");
         } catch (ClassNotFoundException e) {

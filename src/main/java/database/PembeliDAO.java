@@ -8,8 +8,6 @@ import java.sql.SQLException;
 import main.java.model.Pembeli;
 
 public class PembeliDAO {
-
-    // id 1 -> ACC001
     public static String buatAccountID(int nomor) {
         return String.format("ACC%03d", nomor);
     }
@@ -25,7 +23,6 @@ public class PembeliDAO {
         }
     }
 
-    // Password plaintext di-hash di sini; yang masuk ke database hanya hash-nya
     public static boolean tambah(Pembeli p) {
         if (p.getPassword() == null) {
             return false;
@@ -46,7 +43,7 @@ public class PembeliDAO {
                     p.setAccountID(buatAccountID(rs.getInt(1)));
                 }
             }
-            p.setPassword(null); // plaintext tidak perlu disimpan lebih lama
+            p.setPassword(null);
             return true;
         } catch (SQLException e) {
             e.printStackTrace();
@@ -54,7 +51,6 @@ public class PembeliDAO {
         }
     }
 
-    // Mengembalikan Pembeli jika username dan password cocok, selain itu null
     public static Pembeli masuk(String username, String password) throws SQLException {
         String sql = "SELECT id, username, email, password, alamat_ip, lokasi, poin_stream "
                 + "FROM pembeli WHERE LOWER(username) = LOWER(?)";

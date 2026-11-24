@@ -9,16 +9,10 @@ import java.util.ArrayList;
 import main.java.model.Developer;
 
 public class DeveloperDAO {
-
-    // id 1 -> DEV001
     public static String buatAccountID(int nomor) {
         return String.format("DEV%03d", nomor);
     }
 
-    // ---- Data developer (dipakai GameDAO, DLCDAO, ImportData) ----
-
-    // Mencari developer di daftar (cache); jika belum ada, dibuat dan ditambahkan
-    // ke daftar
     public static Developer cariAtauBuat(ArrayList<Developer> daftar, String nama) {
         for (Developer d : daftar) {
             if (d.getNamaDeveloper().equalsIgnoreCase(nama)) {
@@ -31,8 +25,6 @@ public class DeveloperDAO {
         return baru;
     }
 
-    // Mengembalikan id developer; jika namanya belum ada di tabel, baris baru
-    // dibuat
     static int idDeveloper(Connection conn, String nama) throws SQLException {
         try (PreparedStatement ps = conn.prepareStatement(
                 "SELECT id FROM developer WHERE LOWER(nama_developer) = LOWER(?)")) {
@@ -54,8 +46,6 @@ public class DeveloperDAO {
         }
     }
 
-    // ---- Akun developer ----
-    
     public static boolean usernameTerpakai(String username) throws SQLException {
         String sql = "SELECT 1 FROM developer WHERE LOWER(username) = LOWER(?)";
         try (Connection conn = PostgreSQLConnection.getConnection();
@@ -78,9 +68,6 @@ public class DeveloperDAO {
         }
     }
 
-    // Jika nama developer sudah ada di tabel (dari data game), akun dipasang ke
-    // baris itu.
-    // Jika belum ada, dibuat baris developer baru.
     public static boolean tambah(Developer d) {
         if (d.getPassword() == null) {
             return false;
@@ -109,10 +96,10 @@ public class DeveloperDAO {
                     ps.setString(3, passwordTersimpan);
                     ps.setInt(4, id);
                     if (ps.executeUpdate() == 0) {
-                        return false; // baris itu ternyata sudah punya akun
+                        return false;
                     }
                 }
-                d.setNamaDeveloper(namaDb); // pakai penulisan nama yang ada di database
+                d.setNamaDeveloper(namaDb);
             } else {
                 try (PreparedStatement ps = conn.prepareStatement(
                         "INSERT INTO developer (nama_developer, username, email, password) VALUES (?, ?, ?, ?)",
@@ -137,7 +124,6 @@ public class DeveloperDAO {
         }
     }
 
-    // Mengembalikan Developer jika username dan password cocok, selain itu null
     public static Developer masuk(String username, String password) throws SQLException {
         String sql = "SELECT id, username, email, password, nama_developer FROM developer "
                 + "WHERE LOWER(username) = LOWER(?)";

@@ -135,7 +135,6 @@ public class MainWindowController {
         BoxMetodePembayaran.getItems().addAll("QRIS", "E-Wallet", "Transfer Bank");
     }
 
-    // Dipanggil oleh LoginController setelah berhasil masuk
     public void setPembeli(Pembeli pembeli) {
         this.pembeli = pembeli;
         lblUser.setText("Masuk sebagai: " + pembeli.getUsername());
@@ -236,8 +235,6 @@ public class MainWindowController {
         String invNo = waktuSekarang.format(formatNomorInvoice);
         invoice.setInvoiceNo(invNo);
 
-        // Poin ditambahkan dulu agar tampil di teks invoice; dikembalikan jika
-        // dibatalkan/gagal
         int poinLama = pembeli.getPoinStream();
         int poinDidapat = (int) (invoice.getSubtotal() / 1000);
         pembeli.setPoinStream(poinLama + poinDidapat);
@@ -262,7 +259,7 @@ public class MainWindowController {
 
     private void prosesKonfirmasi(int poinDidapat, int poinLama, String invNo) {
         if (!InvoiceDAO.simpan(invoice, poinDidapat)) {
-            pembeli.setPoinStream(poinLama); // memori harus sama dengan database
+            pembeli.setPoinStream(poinLama); 
             perbaruiPoin();
             tampilkanAlert(Alert.AlertType.ERROR, "Gagal Menyimpan",
                     "Gagal menyimpan invoice ke database. Transaksi dibatalkan.");

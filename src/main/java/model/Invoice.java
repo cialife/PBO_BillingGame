@@ -103,8 +103,6 @@ public class Invoice implements Cetak {
         return String.format("Rp %,.0f", nilai);
     }
 
-    // Satu baris "label : nilai" dengan label rata kiri agar kolom titik dua
-    // sejajar
     private String baris(String label, String nilai) {
         return String.format("%-30s : %s\n", label, nilai);
     }
@@ -172,7 +170,6 @@ public class Invoice implements Cetak {
     }
 
     public void simpanKeFile(String namaFile) {
-        // try-with-resources: file pasti tertutup walau terjadi error
         try (FileWriter fw = new FileWriter(namaFile)) {
             fw.write(buatTeksInvoice());
             System.out.println(">> [SUCCESS] Invoice berhasil disimpan ke file: " + namaFile);
@@ -182,9 +179,6 @@ public class Invoice implements Cetak {
         }
     }
 
-    // Membaca seluruh isi file teks (File + Scanner seperti di materi Library
-    // Classes)
-    // dan mengembalikannya sebagai String agar bisa ditampilkan di GUI
     public static String bacaIsiFile(String namaFile) throws FileNotFoundException {
         StringBuilder isi = new StringBuilder();
         try (Scanner reader = new Scanner(new File(namaFile))) {

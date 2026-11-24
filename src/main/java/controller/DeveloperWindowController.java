@@ -35,7 +35,6 @@ public class DeveloperWindowController {
     @FXML
     private Label lblStatus;
 
-    // Form Game
     @FXML
     private TextField gameKodeField;
     @FXML
@@ -47,7 +46,6 @@ public class DeveloperWindowController {
     @FXML
     private TextField gameUkuranField;
 
-    // Form DLC
     @FXML
     private ComboBox<Game> dlcBaseGameCombo;
     @FXML
@@ -63,7 +61,6 @@ public class DeveloperWindowController {
     @FXML
     private TextField dlcJenisField;
 
-    // Tabel "Produk Saya"
     @FXML
     private TableView<ProdukDigital> produkTable;
     @FXML
@@ -97,9 +94,7 @@ public class DeveloperWindowController {
                     || p.getKodeProduk().toLowerCase().contains(kata));
         });
 
-        // Teks pilihan diambil dari Game.toString()
         dlcBaseGameCombo.setItems(dataGameSaya);
-        // Genre DLC otomatis terisi dari base game yang dipilih (masih bisa diubah)
         dlcBaseGameCombo.valueProperty().addListener((obs, lama, baru) -> {
             if (baru != null) {
                 dlcGenreField.setText(baru.getGenre());
@@ -107,7 +102,6 @@ public class DeveloperWindowController {
         });
     }
 
-    // Dipanggil oleh LoginController setelah developer berhasil masuk
     public void setDeveloper(Developer developer) {
         this.developer = developer;
         lblDeveloper.setText("Developer: " + developer.getNamaDeveloper()
@@ -115,8 +109,6 @@ public class DeveloperWindowController {
         muatProdukSaya();
     }
 
-    // Memuat semua game dan DLC, lalu hanya menyimpan milik developer yang sedang
-    // masuk
     private void muatProdukSaya() {
         try {
             ArrayList<Developer> cache = new ArrayList<>();
@@ -233,7 +225,6 @@ public class DeveloperWindowController {
         }
     }
 
-    // true jika kode sudah dipakai produk lain (atau database tidak bisa diakses)
     private boolean kodeSudahDipakai(String kode) {
         try {
             if (GameDAO.kodeProdukTerpakai(kode)) {
@@ -248,7 +239,6 @@ public class DeveloperWindowController {
         }
     }
 
-    // Mengembalikan null jika bukan angka yang valid atau bernilai negatif
     private Double parseAngka(String teks) {
         try {
             double nilai = Double.parseDouble(teks.trim());
@@ -272,7 +262,7 @@ public class DeveloperWindowController {
             lblStatus.setText(">> Pilih produk pada tabel terlebih dahulu.");
             return;
         }
-        Game g = (Game) terpilih; // DLC juga turunan Game
+        Game g = (Game) terpilih;
         boolean adalahDLC = g instanceof DLC;
 
         TextField fJudul = new TextField(g.getJudul());

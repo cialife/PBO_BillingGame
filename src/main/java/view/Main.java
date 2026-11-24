@@ -20,12 +20,10 @@ public class Main extends Application {
         tampilkanLogin(primaryStage);
     }
 
-    // Satu tempat untuk membuka form login (dipakai saat start dan saat logout)
     public static FXMLLoader tampilkanLogin(Stage stage) throws IOException {
         return tampilkan(stage, FXML_LOGIN, "Stream - Login", 480, 640);
     }
 
-    // Memuat file FXML ke stage yang sama (swap scene) dan mengembalikan loader-nya
     public static FXMLLoader tampilkan(Stage stage, String fxml, String judul,
             double lebar, double tinggi) throws IOException {
         URL lokasi = Main.class.getResource(fxml);

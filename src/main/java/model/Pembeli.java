@@ -50,7 +50,6 @@ public class Pembeli extends Pengguna {
         System.out.println("Pembeli " + getUsername() + " berhasil masuk.");
     }
 
-    // Implementasi abstract method validate()
     @Override
     public boolean validate() {
         return usernameValid() && emailValid() && passwordValid()

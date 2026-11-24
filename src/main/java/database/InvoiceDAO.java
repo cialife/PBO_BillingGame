@@ -14,8 +14,6 @@ import main.java.model.ProdukDigital;
 public class InvoiceDAO {
     private static final DateTimeFormatter FORMAT_TANGGAL = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
 
-    // Menyimpan invoice, item, dan poin pembeli dalam SATU transaksi.
-    // Jika salah satu gagal, semuanya dibatalkan.
     public static boolean simpan(Invoice inv, int poinDidapat) {
         try (Connection conn = PostgreSQLConnection.getConnection()) {
             conn.setAutoCommit(false);
@@ -95,7 +93,6 @@ public class InvoiceDAO {
         throw new SQLException("Produk tidak ditemukan: " + kode);
     }
 
-    // Cari metode pembayaran (tanpa membedakan huruf besar/kecil); buat baru jika belum ada
     private static int idPembayaran(Connection conn, String metode) throws SQLException {
         String bersih = metode.trim();
         try (PreparedStatement ps = conn.prepareStatement(

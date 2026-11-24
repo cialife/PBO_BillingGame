@@ -20,12 +20,9 @@ import main.java.model.Pembeli;
 import main.java.view.Main;
 
 public class LoginController {
-    // Pesan bila validate() (abstract method dari Pengguna) mengembalikan false
     private static final String PESAN_AKUN_TIDAK_VALID = ">> Data tidak valid. Username 3-30 karakter "
-            + "(huruf, angka, _ atau .), email harus valid, dan password 8-20 karakter berisi angka, "
-            + "huruf besar, huruf kecil, serta simbol (!@#$%^&*+=()_-) tanpa spasi.";
+        + "(huruf, angka, _ atau .) dan email harus valid.";
 
-    // Tab Masuk
     @FXML
     private ComboBox<String> loginRoleCombo;
     @FXML
@@ -33,7 +30,6 @@ public class LoginController {
     @FXML
     private PasswordField loginPasswordField;
 
-    // Tab Daftar Akun
     @FXML
     private ComboBox<String> daftarRoleCombo;
     @FXML
@@ -63,7 +59,6 @@ public class LoginController {
         aturFormDaftar();
     }
 
-    // Menampilkan kolom tambahan sesuai peran yang dipilih di tab Daftar Akun
     @FXML
     private void handleGantiRoleDaftar() {
         aturFormDaftar();
@@ -192,7 +187,6 @@ public class LoginController {
         }
     }
 
-    // Pesan sengaja tidak membedakan "username tidak ada" dan "password salah"
     private void gagalMasuk() {
         loginPasswordField.clear();
         lblStatus.setText(">> Username atau password salah.");
