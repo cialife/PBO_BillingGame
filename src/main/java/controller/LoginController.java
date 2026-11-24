@@ -108,6 +108,8 @@ public class LoginController {
         }
         if (PembeliDAO.usernameTerpakai(username)) {
             lblStatus.setText(">> Username sudah terdaftar.");
+        } else if (PembeliDAO.emailTerpakai(email)) {
+            lblStatus.setText(">> Email sudah terdaftar.");
         } else if (PembeliDAO.tambah(baru)) {
             baru.daftarAkun();
             bersihkanFormDaftar();
@@ -133,6 +135,8 @@ public class LoginController {
         }
         if (DeveloperDAO.usernameTerpakai(username)) {
             lblStatus.setText(">> Username developer sudah terdaftar.");
+        } else if (DeveloperDAO.emailTerpakai(email)) {
+            lblStatus.setText(">> Email sudah terdaftar.");
         } else if (DeveloperDAO.namaSudahPunyaAkun(nama)) {
             lblStatus.setText(">> Nama developer tersebut sudah memiliki akun.");
         } else if (DeveloperDAO.tambah(baru)) {

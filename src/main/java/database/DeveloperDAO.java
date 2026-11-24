@@ -57,6 +57,17 @@ public class DeveloperDAO {
         }
     }
 
+    public static boolean emailTerpakai(String email) throws SQLException {
+        String sql = "SELECT 1 FROM developer WHERE LOWER(email) = LOWER(?)";
+        try (Connection conn = PostgreSQLConnection.getConnection();
+                PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, email);
+            try (ResultSet rs = ps.executeQuery()) {
+                return rs.next();
+            }
+        }
+    }
+
     public static boolean namaSudahPunyaAkun(String nama) throws SQLException {
         String sql = "SELECT 1 FROM developer WHERE LOWER(nama_developer) = LOWER(?) AND username IS NOT NULL";
         try (Connection conn = PostgreSQLConnection.getConnection();

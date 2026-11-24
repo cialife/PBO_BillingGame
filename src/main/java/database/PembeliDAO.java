@@ -23,6 +23,17 @@ public class PembeliDAO {
         }
     }
 
+    public static boolean emailTerpakai(String email) throws SQLException {
+        String sql = "SELECT 1 FROM pembeli WHERE LOWER(email) = LOWER(?)";
+        try (Connection conn = PostgreSQLConnection.getConnection();
+                PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, email);
+            try (ResultSet rs = ps.executeQuery()) {
+                return rs.next();
+            }
+        }
+    }
+
     public static boolean tambah(Pembeli p) {
         if (p.getPassword() == null) {
             return false;
